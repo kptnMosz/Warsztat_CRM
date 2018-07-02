@@ -14,17 +14,16 @@ public class VehicleDao {
     public static ArrayList<Vehicle> loadAll() throws SQLException {
         ArrayList<Vehicle> list = new ArrayList<>();
         Connection conn = DbUtil.getConn();
-        PreparedStatement sql = conn.prepareStatement("SELECT id, model , brand, produced, registration, next_inspection FROM vehicles;");
+        PreparedStatement sql = conn.prepareStatement("SELECT id, model , brand, produced, registration, next_inspection, customer_id FROM vehicles;");
         ResultSet rs = sql.executeQuery();
         while(rs.next()){
             String model=rs.getString("model");
             String brand=rs.getString("brand");
             int produced =rs.getInt("produced");
             String registration=rs.getString("registration");
-            //todo obsluga dat
-            LocalDate nextInspection;
-
-            //todo konstruktor vehicle
+            LocalDate nextInspection=rs.getDate("next_inspection").toLocalDate();
+            int customerId = rs.getInt("customer_id");
+            list.add(new Vehicle(model,brand,produced,registration,nextInspection, customerId));
         }
 
 
