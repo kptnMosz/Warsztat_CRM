@@ -19,7 +19,7 @@ CREATE TABLE vehicles (
   id              INTEGER unsigned auto_increment primary key,
   model           VARCHAR(20),
   brand           VARCHAR(20),
-  produced        DATE,
+  produced        INTEGER,
   registration    VARCHAR(20),
   next_inspection DATE,
   customer_id     INTEGER unsigned,
