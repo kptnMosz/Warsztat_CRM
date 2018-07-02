@@ -1,8 +1,9 @@
-package pl.coderslab.dao;
+package pl.coderslab.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
-public class vahicleDao {
+public class Vehicle {
 
     private int id =0;
     private String model;
@@ -62,7 +63,7 @@ public class vahicleDao {
 
 
 
-    public vahicleDao(String model, String brand, int produced, String registration, LocalDate nextInspection, int customerId) {
+    public Vehicle(String model, String brand, int produced, String registration, LocalDate nextInspection, int customerId) {
         this.model = model;
         this.brand = brand;
         this.produced = produced;
@@ -70,4 +71,6 @@ public class vahicleDao {
         this.nextInspection = nextInspection;
         this.customerId = customerId;
     }
+
+
 }
