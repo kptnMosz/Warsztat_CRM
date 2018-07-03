@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-    <Resource name="jdbc/warsztat_crm"
+    <Resource name="jdbc/sql7245713"
               auth="Container"
               type="javax.sql.DataSource"
               username="sql7245713"

@@ -1,4 +1,4 @@
-package pl.coderslab.controller;
+package pl.coderslab.controller.test;
 
 import pl.coderslab.dao.CustomerDao;
 import pl.coderslab.model.Customer;

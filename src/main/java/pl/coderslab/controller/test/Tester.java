@@ -1,4 +1,4 @@
-package pl.coderslab.controller;
+package pl.coderslab.controller.test;
 
 import pl.coderslab.DbUtil;
 import pl.coderslab.dao.VehicleDao;
@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 
-@WebServlet(name = "Tester", urlPatterns = "/test")
+@WebServlet(name = "Tester", urlPatterns = "/testVehicle")
 public class Tester extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

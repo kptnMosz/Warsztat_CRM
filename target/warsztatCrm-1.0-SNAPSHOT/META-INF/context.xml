@@ -1,28 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/">
-
-        <Resource name="jdbc/sql7245713"
-        auth="Container"
-        type="javax.sql.DataSource"
-        username="sql7245713"
-        password="VXCXu718hS"
-        driverClassName="com.mysql.jdbc.Driver"
-        url="jdbc:mysql://sql7.freemysqlhosting.net:3306/sql7245713"
-        connectionProperties="useUnicode=yes;characterEncoding=utf8;"
-        maxTotal="100"
-        maxIdle="30"
-        maxWaitMillis="10000" />
-
-        <!--<Resource name="jdbc/warsztat_crm"-->
-                  <!--auth="Container"-->
-                  <!--type="javax.sql.DataSource"-->
-                  <!--username="root"-->
-                  <!--password="coderslab"-->
-                  <!--driverClassName="com.mysql.jdbc.Driver"-->
-                  <!--connectionProperties="useUnicode=yes;characterEncoding=utf8;"-->
-                  <!--url="jdbc:mysql://localhost:3306/warsztat_crm"-->
-                  <!--maxTotal="100"-->
-                  <!--maxIdle="30"-->
-                  <!--maxWaitMillis="10000" />-->
-
+<Context>
+    <Resource name="jdbc/sql7245713"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="sql7245713"
+              password="VXCXu718hS"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://sql7.freemysqlhosting.net:3306/sql7245713"
+              connectionProperties="useUnicode=yes;characterEncoding=utf8;"
+              maxTotal="100"
+              maxIdle="30"
+              maxWaitMillis="10000" />
 </Context>
