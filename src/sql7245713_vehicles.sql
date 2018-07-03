@@ -1,0 +1,5 @@
+INSERT INTO sql7245713.vehicles (id, model, brand, produced, registration, next_inspection, customer_id) VALUES (2, 'skoda', 'fabia', 1377, 'WRA66728', '2018-07-09', 1);
+INSERT INTO sql7245713.vehicles (id, model, brand, produced, registration, next_inspection, customer_id) VALUES (3, 'Fiat', 'Punto', 1997, 'WR7777', '2018-09-09', 1);
+INSERT INTO sql7245713.vehicles (id, model, brand, produced, registration, next_inspection, customer_id) VALUES (4, 'Fiat', 'Punto', 1997, 'WR7777', '2018-09-09', 1);
+INSERT INTO sql7245713.vehicles (id, model, brand, produced, registration, next_inspection, customer_id) VALUES (5, 'Fiat', 'Punto', 1997, 'WR7777', '2018-09-09', 1);
+INSERT INTO sql7245713.vehicles (id, model, brand, produced, registration, next_inspection, customer_id) VALUES (6, 'Fiat', 'Punto', 1997, 'WR7777', '2018-09-09', 1);

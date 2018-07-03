@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 
 public class VehicleDao {
+
     public static ArrayList<Vehicle> loadAll() throws SQLException {
         ArrayList<Vehicle> list = new ArrayList<>();
         try (Connection conn = DbUtil.getConn()) {
@@ -25,7 +26,9 @@ public class VehicleDao {
     public static ArrayList<Vehicle> loadAll(int limit) throws SQLException {
         ArrayList<Vehicle> list = new ArrayList<>();
         try (Connection conn = DbUtil.getConn()) {
-            PreparedStatement sql = conn.prepareStatement("SELECT id, model , brand, produced, registration, next_inspection, customer_id FROM vehicles ORDER BY next_inspection LIMIT = " + limit + ";");
+            String querry = "SELECT id, model , brand, produced, registration, next_inspection, customer_id FROM vehicles ORDER BY next_inspection DESC LIMIT ?";
+            PreparedStatement sql = conn.prepareStatement(querry);
+            sql.setInt(1,limit);
             list = loadFromDb(sql);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,24 +49,25 @@ public class VehicleDao {
             String registration = rs.getString("registration");
             LocalDate nextInspection = rs.getDate("next_inspection").toLocalDate();
             int customerId = rs.getInt("customer_id");
-            list.add(new Vehicle(model, brand, produced, registration, nextInspection, customerId));
+            list.add(new Vehicle(id, model, brand, produced, registration, nextInspection, customerId));
         }
         return list;
     }
 
     public static Vehicle loadById(int id) throws SQLException {
         Vehicle vehicle = null;
-        Connection conn = DbUtil.getConn();
-        PreparedStatement sql = conn.prepareStatement("SELECT id, model , brand, produced, registration, next_inspection, customer_id FROM vehicles WHERE id=" + id + ";");
-        ResultSet rs = sql.executeQuery();
-        if (rs.next()) {
-            String model = rs.getString("model");
-            String brand = rs.getString("brand");
-            int produced = rs.getInt("produced");
-            String registration = rs.getString("registration");
-            LocalDate nextInspection = rs.getDate("next_inspection").toLocalDate();
-            int customerId = rs.getInt("customer_id");
-            vehicle = new Vehicle(id, model, brand, produced, registration, nextInspection, customerId);
+        try (Connection conn = DbUtil.getConn()) {
+            PreparedStatement sql = conn.prepareStatement("SELECT id, model , brand, produced, registration, next_inspection, customer_id FROM vehicles WHERE id=" + id + ";");
+            ResultSet rs = sql.executeQuery();
+            if (rs.next()) {
+                String model = rs.getString("model");
+                String brand = rs.getString("brand");
+                int produced = rs.getInt("produced");
+                String registration = rs.getString("registration");
+                LocalDate nextInspection = rs.getDate("next_inspection").toLocalDate();
+                int customerId = rs.getInt("customer_id");
+                vehicle = new Vehicle(id, model, brand, produced, registration, nextInspection, customerId);
+            }
         }
         return vehicle;
     }
@@ -80,27 +84,50 @@ public class VehicleDao {
     }
 
     private static void addToDb(Vehicle vehicle) throws SQLException {
+
         Connection conn = DbUtil.getConn();
         PreparedStatement sql = conn.prepareStatement("INSERT INTO vehicles (model, brand, produced, registration, next_inspection, customer_id) VALUES (?,?,?,?,?,?);", new String[]{"id"});
         sql.setString(1, vehicle.getModel());
         sql.setString(2, vehicle.getBrand());
         sql.setInt(3, vehicle.getProduced());
         sql.setString(4, vehicle.getRegistration());
-        sql.setDate(5, Date.valueOf(vehicle.getNextInspection()));
+        sql.setDate(5, vehicle.getNextInspectionInSqlFormat());
         sql.setInt(6, vehicle.getCustomerId());
         sql.executeUpdate();
         ResultSet rs = sql.getGeneratedKeys();
         if (rs.next()) {
-            vehicle.setId(rs.getInt("id"));
+            vehicle.setId(rs.getInt(1));
         }
+        conn.close();
 
     }
 
     private static void update(Vehicle vehicle) throws SQLException {
         Connection conn = DbUtil.getConn();
-        PreparedStatement sql = conn.prepareStatement("");
+        PreparedStatement sql = conn.prepareStatement("UPDATE vehicles SET model =? , brand =? , produced =? , registration =? , next_inspection =? , customer_id =? WHERE id=?");
+        sql.setString(1, vehicle.getModel());
+        sql.setString(2, vehicle.getBrand());
+        sql.setInt(3, vehicle.getProduced());
+        sql.setString(4, vehicle.getRegistration());
+        sql.setDate(5, vehicle.getNextInspectionInSqlFormat());
+        sql.setInt(6, vehicle.getCustomerId());
+        sql.setInt(7, vehicle.getId());
         sql.executeUpdate();
+        conn.close();
     }
 
+    public static void delete(Vehicle vehicle) throws SQLException {
+        if(vehicle==null){
+            throw new NullPointerException("Not possible to delete a vehicle that does not exist");
+        }
+        if(vehicle.getId()!=0){
+            try(Connection conn = DbUtil.getConn()){
+                PreparedStatement sql = conn.prepareStatement("DELETE FROM vehicles WHERE id = ?;");
+                sql.setInt(1,vehicle.getId());
+                sql.executeUpdate();
+                vehicle.setId(0);
+            }
+        }
+    }
 
 }

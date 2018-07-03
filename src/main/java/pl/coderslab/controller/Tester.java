@@ -2,6 +2,7 @@ package pl.coderslab.controller;
 
 import pl.coderslab.DbUtil;
 import pl.coderslab.dao.VehicleDao;
+import pl.coderslab.model.Vehicle;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,10 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Random;
 
 @WebServlet(name = "Tester", urlPatterns = "/test")
 public class Tester extends HttpServlet {
@@ -21,20 +26,46 @@ public class Tester extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try (Connection connection = DbUtil.getConn()) {
-            PreparedStatement sql = connection.prepareStatement("SELECT 1 FROM vehicles;");
-            ResultSet rs = sql.executeQuery();
-            if (rs.next()) {
-                response.getWriter().append(rs.getString(1));
-            }else {
-            response.getWriter().append("nie ma");}
+        request.setCharacterEncoding("UTF8");
+        response.setContentType("text/html, charset:utf-8");
+
+        PrintWriter pisak = response.getWriter();
+        try {
+            Vehicle vehicle = VehicleDao.loadById(2);
+            pisak.println(vehicle.toString());
+            pisak.println("<br> ------======zmieniamy rok produkcji====-------");
+            vehicle.setProduced(new Random().nextInt(2000));
+            VehicleDao.saveToDb(vehicle);
+            pisak.println("<br> ------======ponownie ściągamy z bazy====-------");
+            vehicle = VehicleDao.loadById(2);
+            pisak.println("<br>"+vehicle);
+            pisak.println("<br> ------======tworzymy nowy samochod====-------");
+            vehicle = new Vehicle("Fiat","Punto",1997,"WR7777", LocalDate.of(2018,10,9),1);
+            pisak.println("<br>"+vehicle);
+            pisak.println("<br> ------======zapisujemy do bazy====-------");
+            VehicleDao.saveToDb(vehicle);
+            pisak.println("<br>: "+vehicle);
+            ArrayList<Vehicle> list = VehicleDao.loadAll(5);
+            pisak.println("<br> ------======drukujemy 5 najnoowszych samochodow====-------");
+            for(Vehicle veh : list){
+                pisak.println("<br>"+veh);
+            }
+            pisak.println("<br> ------======trzeci element:====-------");
+            vehicle =list.get(2);
+            pisak.println("<br>"+vehicle);
+            VehicleDao.delete(vehicle);
+
+            pisak.println("<br> ------======kasujemy trzeci i sciagamy ponownie====-------");
+            list = VehicleDao.loadAll(5);
+            for(Vehicle veh : list){
+                pisak.println("<br>"+veh);
+            }
 
 
         } catch (SQLException e) {
-            response.getWriter().append(e.getMessage());
-            e.printStackTrace();
+            pisak.println("<br> zapis do bazy nie powiódł sie:<br>"+ e.getLocalizedMessage() + e.getMessage());
         }
 
-        response.getWriter().append("dupa");
+        response.getWriter().append("<br> koniec testu");
     }
 }

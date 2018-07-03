@@ -1,5 +1,6 @@
 package pl.coderslab.model;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -49,6 +50,10 @@ public class Vehicle {
 
     public LocalDate getNextInspection() {
         return nextInspection;
+    }
+
+    public Date getNextInspectionInSqlFormat() {
+        return Date.valueOf(nextInspection);
     }
 
     public void setNextInspection(LocalDate nextInspection) {

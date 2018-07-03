@@ -1,0 +1,1 @@
+INSERT INTO sql7245713.customers (id, name, surname, birthday) VALUES (1, 'dionizy', 'dupa', null);
