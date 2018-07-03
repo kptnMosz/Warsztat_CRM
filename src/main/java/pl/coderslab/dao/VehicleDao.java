@@ -11,21 +11,31 @@ import java.util.ArrayList;
 public class VehicleDao {
     public static ArrayList<Vehicle> loadAll() throws SQLException {
         ArrayList<Vehicle> list = new ArrayList<>();
-        Connection conn = DbUtil.getConn();
-        PreparedStatement sql = conn.prepareStatement("SELECT id, model , brand, produced, registration, next_inspection, customer_id FROM vehicles;");
+        try (Connection conn = DbUtil.getConn()) {
+            PreparedStatement sql = conn.prepareStatement("SELECT id, model , brand, produced, registration, next_inspection, customer_id FROM vehicles;");
 
-        return loadFromDb(sql);
+            list = loadFromDb(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 
     public static ArrayList<Vehicle> loadAll(int limit) throws SQLException {
         ArrayList<Vehicle> list = new ArrayList<>();
-        Connection conn = DbUtil.getConn();
-        PreparedStatement sql = conn.prepareStatement("SELECT id, model , brand, produced, registration, next_inspection, customer_id FROM vehicles ORDER BY next_inspection LIMIT = " + limit + ";");
+        try (Connection conn = DbUtil.getConn()) {
+            PreparedStatement sql = conn.prepareStatement("SELECT id, model , brand, produced, registration, next_inspection, customer_id FROM vehicles ORDER BY next_inspection LIMIT = " + limit + ";");
+            list = loadFromDb(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-        return loadFromDb(sql);
+        return list;
+
     }
 
-    public static ArrayList<Vehicle> loadFromDb(PreparedStatement sql) throws SQLException {
+    private static ArrayList<Vehicle> loadFromDb(PreparedStatement sql) throws SQLException {
         ArrayList<Vehicle> list = new ArrayList<>();
         ResultSet rs = sql.executeQuery();
         while (rs.next()) {
@@ -58,29 +68,29 @@ public class VehicleDao {
         return vehicle;
     }
 
-    public static void saveToDb (Vehicle vehicle) throws SQLException {
-        if(vehicle==null){
+    public static void saveToDb(Vehicle vehicle) throws SQLException {
+        if (vehicle == null) {
             throw new NullPointerException("Not possible to save a vehicle that does not exist");
         }
-        if(vehicle.getId()!=0){
+        if (vehicle.getId() != 0) {
             update(vehicle);
-        }else{
+        } else {
             addToDb(vehicle);
         }
     }
 
     private static void addToDb(Vehicle vehicle) throws SQLException {
         Connection conn = DbUtil.getConn();
-        PreparedStatement sql = conn.prepareStatement("INSERT INTO vehicles (model, brand, produced, registration, next_inspection, customer_id) VALUES (?,?,?,?,?,?);",new String[]{"id"});
-        sql.setString(1,vehicle.getModel());
-        sql.setString(2,vehicle.getBrand());
-        sql.setInt(3,vehicle.getProduced());
-        sql.setString(4,vehicle.getRegistration());
-        sql.setDate(5,Date.valueOf(vehicle.getNextInspection()));
-        sql.setInt(6,vehicle.getCustomerId());
+        PreparedStatement sql = conn.prepareStatement("INSERT INTO vehicles (model, brand, produced, registration, next_inspection, customer_id) VALUES (?,?,?,?,?,?);", new String[]{"id"});
+        sql.setString(1, vehicle.getModel());
+        sql.setString(2, vehicle.getBrand());
+        sql.setInt(3, vehicle.getProduced());
+        sql.setString(4, vehicle.getRegistration());
+        sql.setDate(5, Date.valueOf(vehicle.getNextInspection()));
+        sql.setInt(6, vehicle.getCustomerId());
         sql.executeUpdate();
         ResultSet rs = sql.getGeneratedKeys();
-        if(rs.next()){
+        if (rs.next()) {
             vehicle.setId(rs.getInt("id"));
         }
 

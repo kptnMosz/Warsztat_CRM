@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 public class Vehicle {
 
-    private int id =0;
+    //    ---------========zmienne===========-----------
+    private int id = 0;
     private String model;
     private String brand;
     private int produced;
@@ -13,6 +14,7 @@ public class Vehicle {
     private LocalDate nextInspection;
     private int customerId;
 
+    //        ---------========gettery i settery===========-----------
     public String getModel() {
         return model;
     }
@@ -62,7 +64,16 @@ public class Vehicle {
     }
 
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    //            ---------========konstruktory===========-----------
     public Vehicle(String model, String brand, int produced, String registration, LocalDate nextInspection, int customerId) {
         this.model = model;
         this.brand = brand;
@@ -72,5 +83,26 @@ public class Vehicle {
         this.customerId = customerId;
     }
 
+    public Vehicle(int id, String model, String brand, int produced, String registration, LocalDate nextInspection, int customerId) {
+        this.id = id;
+        this.model = model;
+        this.brand = brand;
+        this.produced = produced;
+        this.registration = registration;
+        this.nextInspection = nextInspection;
+        this.customerId = customerId;
+    }
 
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "id=" + id +
+                ", model='" + model + '\'' +
+                ", brand='" + brand + '\'' +
+                ", produced=" + produced +
+                ", registration='" + registration + '\'' +
+                ", nextInspection=" + nextInspection +
+                ", customerId=" + customerId +
+                '}';
+    }
 }
