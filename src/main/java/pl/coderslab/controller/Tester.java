@@ -23,15 +23,15 @@ public class Tester extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try (Connection connection = DbUtil.getConn()) {
             PreparedStatement sql = connection.prepareStatement("SELECT 1 FROM vehicles;");
-//            ResultSet rs = sql.executeQuery();
-//            if (rs.next()) {
-//                response.getWriter().append(rs.getString(1));
-//            }else {
-//            response.getWriter().append("nie ma");}
+            ResultSet rs = sql.executeQuery();
+            if (rs.next()) {
+                response.getWriter().append(rs.getString(1));
+            }else {
+            response.getWriter().append("nie ma");}
 
 
         } catch (SQLException e) {
-
+            response.getWriter().append(e.getMessage());
             e.printStackTrace();
         }
 

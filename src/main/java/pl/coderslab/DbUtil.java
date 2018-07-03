@@ -16,7 +16,7 @@ public class DbUtil {
         if(ds == null) {
             try {
                 Context ctx = new InitialContext();
-                ds = (DataSource)ctx.lookup("java:comp/env/jdbc/warsztat_crm");
+                ds = (DataSource)ctx.lookup("java:comp/env/jdbc/sql7245713");
             } catch (NamingException e) {
                 e.printStackTrace();}}
         return ds;}
