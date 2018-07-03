@@ -1,0 +1,26 @@
+ul.menu {
+    background: black;
+    color: whitesmoke;
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+}
+
+ul.menu li {
+    float: left;
+    width: 200px;
+    background-color: black;
+    color: whitesmoke;
+
+}
+
+ul.menu li a {
+    text-decoration: none;
+    color: whitesmoke;
+    display: block;
+}
+
+ul.menu li a:hover{
+    background-color: darkgoldenrod;
+    color: black;
+}
