@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "VehicleDetails", urlPatterns = "/VehicleDetails")
+@WebServlet(name = "VehicleDetails", urlPatterns = "views/VehicleDetails")
 public class VehicleDetails extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

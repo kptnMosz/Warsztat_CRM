@@ -131,6 +131,20 @@ public class VehicleDao {
         conn.close();
     }
 
+    public static void clearCustomer(Vehicle vehicle) throws SQLException {
+        if(vehicle==null){
+            throw new NullPointerException("Not possible to clear a vehicle that does not exist");
+        }
+        if(vehicle.getId()!=0){
+            try(Connection conn = DbUtil.getConn()){
+                PreparedStatement sql = conn.prepareStatement("UPDATE vehicles SET customer_id = null WHERE id = ?;");
+                sql.setInt(1,vehicle.getId());
+                sql.executeUpdate();
+                vehicle.setId(0);
+            }
+        }
+    }
+
     public static void delete(Vehicle vehicle) throws SQLException {
         if(vehicle==null){
             throw new NullPointerException("Not possible to delete a vehicle that does not exist");

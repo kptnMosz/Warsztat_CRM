@@ -32,7 +32,14 @@ public class VehicleView extends HttpServlet {
         PrintWriter pisak = response.getWriter();
         String customer = request.getParameter("customer");
 
-        int custId = Integer.parseInt(customer);
+        int custId = 0;
+        try {
+            custId = Integer.parseInt(customer);
+        } catch (NumberFormatException e) {
+            pisak.println("nieprawidlowy format id usera");
+        }
+//todo dodac etykietke Customera po poprawieniu bledu w DAO
+//        Customer pan = CustomerDao.loadById(custId);
         try {
             vehiclesForCustomer = VehicleDao.loadByCustomer(custId);
 
@@ -41,6 +48,6 @@ public class VehicleView extends HttpServlet {
             e.printStackTrace();
         }
         request.setAttribute("vehicles", vehiclesForCustomer);
-        request.getRequestDispatcher("/views/vehicle.jsp").forward(request,response);
+        request.getRequestDispatcher("views/vehicle.jsp").forward(request, response);
     }
 }

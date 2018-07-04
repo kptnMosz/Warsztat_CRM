@@ -26,12 +26,12 @@
             </td>
 
             <td>
-                <a href="/views/VehicleDelete&id=${vehicle.id}&mode=edit">
+                <a href="/views/VehicleDetails&id=${vehicle.id}&mode=edit">
                     edytuj
                 </a>
             </td>
             <td>
-                <a href="/views/VehicleDelete&id=${vehicle.id}">
+                <a href="/views/VehicleClear&id=${vehicle.id}">
                     usuń
                 </a>
             </td>
