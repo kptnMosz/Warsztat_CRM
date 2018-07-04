@@ -48,6 +48,6 @@ public class VehicleView extends HttpServlet {
             e.printStackTrace();
         }
         request.setAttribute("vehicles", vehiclesForCustomer);
-        request.getRequestDispatcher("views/vehicle.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/vehicle.jsp").forward(request, response);
     }
 }

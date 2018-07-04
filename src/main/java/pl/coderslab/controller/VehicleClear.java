@@ -11,26 +11,37 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(name = "VehicleClear", urlPatterns = "views/VehicleClear")
+@WebServlet(name = "VehicleClear", urlPatterns = "/VehicleClear")
 public class VehicleClear extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String zgoda =request.getParameter("aprove");
-        response.getWriter().append(zgoda);
+        String zgoda = request.getParameter("aprove");
+        try {
+            int id = Integer.parseInt(zgoda);
+            Vehicle vehicleTest = VehicleDao.loadById(id);
+            if (vehicleTest != null || vehicleTest.getId() != 0) {
+                VehicleDao.clearCustomer(vehicleTest);
+            }
+        } catch (SQLException | NumberFormatException e) {
+            response.getWriter().append("Nieprawidlowe id pojazdu");
+        }
+
+
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
+            ServletException, IOException {
         request.setCharacterEncoding("UTF8");
         response.setContentType("text/html, charset:utf-8");
         response.getWriter().append("jestem w serwlecie Vehicle Clear");
         String vehId = request.getParameter("id");
-        try{
+        try {
             int id = Integer.parseInt(vehId);
             Vehicle vehicleTest = VehicleDao.loadById(id);
-            if(vehicleTest==null||vehicleTest.getId()==0) {
+            if (vehicleTest != null || vehicleTest.getId() != 0) {
                 request.setAttribute("vehicle", vehicleTest);
-                request.getRequestDispatcher("/Views/vehicleClear.jsp").forward(request, response);
+                request.getRequestDispatcher("/views/vehicleClear.jsp").forward(request, response);
             }
-        }catch (SQLException | NumberFormatException e){
+        } catch (SQLException | NumberFormatException e) {
             response.getWriter().append("Nieprawidlowe id pojazdu");
         }
 
