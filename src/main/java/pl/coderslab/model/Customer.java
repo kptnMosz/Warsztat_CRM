@@ -8,17 +8,38 @@ public class Customer {
     private String name;
     private String surname;
     private String birthdayDate;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Customer(){
 
     }
 
+    public Customer(int id) {
+        this.id = id;
+    }
 
-    public Customer(int id, String name, String surname, String birthdayDate) {
+    public Customer(int id, String name, String surname, String birthdayDate, String email) {
+        this.id = id;
+        setName(name);
+        setSurname(surname);
+        setBirthdayDate(birthdayDate);
+        setEmail(email);
+    }
+
+    public Customer(String name, String surname, String birthdayDate, String email) {
         this.id = 0;
         setName(name);
         setSurname(surname);
         setBirthdayDate(birthdayDate);
+        setEmail(email);
     }
 
     public int getId() {

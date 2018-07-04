@@ -12,7 +12,10 @@ CREATE TABLE customers (
   id       INTEGER unsigned auto_increment primary key,
   name     VARCHAR(20),
   surname  VARCHAR(20),
-  birthday DATE
+  birthday DATE,
+  email    varchar(50) not null,
+  constraint customers_email_uindex
+  unique (email)
 );
 
 CREATE TABLE vehicles (
