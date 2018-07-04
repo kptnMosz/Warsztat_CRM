@@ -13,10 +13,42 @@ import java.util.Date;
 
 public class CustomerDao {
 
-    // non-static DB methods
-    //1) Adding a customer to the database
 
-    public void addCustomerToDb (Customer customer) {
+    public static void saveToDb(Customer customer) throws SQLException {
+        if (customer == null) {
+            throw new NullPointerException("Not possible to save a customer that does not exist");
+        }
+        if (customer.getId() != 0) {
+            updateCustomerInDb(customer);
+        } else {
+            addCustomerToDb(customer);
+        }
+    }
+
+    public static void addCustomerToDb(Customer customer) throws SQLException {
+        String birthdayDateS = customer.getBirthdayDate();
+        Date birthdayDate = null;
+        try {
+            birthdayDate = new SimpleDateFormat("yyyy-MM-dd").parse(birthdayDateS);
+        } catch (ParseException e) {
+            System.out.println("Wrong date format!");
+        }
+        String generatedColumns[] = {"ID"};
+        PreparedStatement stmt = DbUtil.getConn().prepareStatement("INSERT INTO customers(name,surname,birthday,email,password) VALUES (?,?,?,?,?)", generatedColumns);
+        stmt.setString(1, customer.getName());
+        stmt.setString(2, customer.getSurname());
+        stmt.setDate(3, new java.sql.Date(birthdayDate.getTime()));
+        stmt.setString(4, customer.getEmail());
+        stmt.setString(5, customer.getPassword());
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+        if (rs.next()) {
+            customer.setId(rs.getInt(1));
+        }
+        DbUtil.getConn().close();
+    }
+
+    public static void updateCustomerInDb(Customer customer) throws SQLException {
         int id = customer.getId();
         String birthdayDateS = customer.getBirthdayDate();
         Date birthdayDate = null;
@@ -25,41 +57,23 @@ public class CustomerDao {
         } catch (ParseException e) {
             System.out.println("Wrong date format!");
         }
-        if (id == 0) {
-            try {
-                String generatedColumns[] = {"ID"};
-                PreparedStatement stmt = DbUtil.getConn().prepareStatement("INSERT INTO customers(name,surname,birthday) VALUES (?,?,?)", generatedColumns);
-                stmt.setString(1, customer.getName());
-                stmt.setString(2, customer.getSurname());
-                stmt.setDate(3, new java.sql.Date(birthdayDate.getTime()));
-                stmt.executeUpdate();
-                ResultSet rs = stmt.getGeneratedKeys();
-                if (rs.next()) {
-                    id = rs.getInt(1);
-                }
-            } catch (SQLException e) {
-                System.err.println(e.getMessage());
-            }
-        } else {
-            try {
-                PreparedStatement stmt = DbUtil.getConn().prepareStatement("UPDATE customers SET name=?, surname=?, birthday=? WHERE id=?");
-                stmt.setString(1, customer.getName());
-                stmt.setString(2, customer.getSurname());
-                stmt.setDate(3, new java.sql.Date(birthdayDate.getTime()));
-                stmt.setLong(4, id);
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                System.err.println(e.getMessage());
-            }
-        }
+        PreparedStatement stmt = DbUtil.getConn().prepareStatement("UPDATE customers SET name= ?, surname= ?, birthday= ?, email = ?, password = ? WHERE id= ?");
+        stmt.setString(1, customer.getName());
+        stmt.setString(2, customer.getSurname());
+        stmt.setDate(3, new java.sql.Date(birthdayDate.getTime()));
+        stmt.setString(4, customer.getEmail());
+        stmt.setString(5, customer.getPassword());
+        stmt.setInt(6, id);
+        stmt.executeUpdate();
     }
 
     public void delete(Customer customer) {
+        int id = customer.getId();
         String sql = "DELETE FROM customers WHERE id= ?";
         try {
-            if (customer. getId() != 0) {
+            if (id != 0) {
                 PreparedStatement stmt = DbUtil.getConn().prepareStatement(sql);
-                stmt.setLong(1, customer.getId());
+                stmt.setInt(1, id);
                 stmt.executeUpdate();
             }
         } catch (SQLException e) {
@@ -67,9 +81,39 @@ public class CustomerDao {
         }
     }
 
-    public static ArrayList<Customer> loadAll() throws SQLException, ParseException {
+    public static Customer loadById(Customer customer) {
+        int id = customer.getId();
+        try {
+            String sql = "SELECT * FROM customers where id=?";
+            PreparedStatement stmt = DbUtil.getConn().prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                Customer loadedCustomer = new Customer();
+                loadedCustomer.setId(resultSet.getInt("id"));
+                loadedCustomer.setName(resultSet.getString("name"));
+                loadedCustomer.setSurname(resultSet.getString("surname"));
+                loadedCustomer.setBirthdayDate(resultSet.getString("birthday"));
+                loadedCustomer.setEmail(resultSet.getString("email"));
+                loadedCustomer.setPassword(resultSet.getString("password"));
+                return loadedCustomer;
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public static ArrayList<Customer> loadAll() {
         String sql = "SELECT * FROM customers";
-        PreparedStatement stmt = DbUtil.getConn().prepareStatement(sql);
+        PreparedStatement stmt = null;
+        try {
+            stmt = DbUtil.getConn().prepareStatement(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return getCustomersFromStatement(stmt);
     }
 
@@ -80,25 +124,18 @@ public class CustomerDao {
 
             while (resultSet.next()) {
                 Customer loadedCustomer = new Customer();
-                String birthdayDateS = loadedCustomer.getBirthdayDate();
-                Date birthdayDate = new SimpleDateFormat("yyyy-MM-dd").parse(birthdayDateS);
-                Date birthdayDateParsed = new java.sql.Date(birthdayDate.getTime());
-                long id = loadedCustomer.getId();
-                String name = loadedCustomer.getName();
-                String surname = loadedCustomer.getSurname();
-
-                id= resultSet.getLong("id");
-                name = resultSet.getString("name");
-                surname = resultSet.getString("surname");
-                birthdayDate = resultSet.getDate("birthday");
+                loadedCustomer.setId(resultSet.getInt("id"));
+                loadedCustomer.setName(resultSet.getString("name"));
+                loadedCustomer.setSurname(resultSet.getString("surname"));
+                loadedCustomer.setBirthdayDate(resultSet.getString("birthday"));
+                loadedCustomer.setEmail(resultSet.getString("email"));
+                loadedCustomer.setPassword(resultSet.getString("password"));
                 customers.add(loadedCustomer);
             }
             return customers;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-        } catch (ParseException e) {
-            System.out.println("Wrong date format!");
+            return null;
         }
-        return null;
     }
 }
