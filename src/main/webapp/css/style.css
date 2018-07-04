@@ -3,6 +3,11 @@ a {
     color: midnightblue;
 }
 
+td {
+    border-color: darkgoldenrod;
+    border-style: dotted;
+}
+
 ul.menu {
     background: black;
     color: whitesmoke;

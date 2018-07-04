@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Edycja pojazdu</title>
+    <title>Lista pojazdów</title>
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
@@ -18,12 +18,23 @@
 <table>
     <c:forEach var="vehicle" items="${vehicles}">
         <tr>
-            <a href="/views/VehicleDetails&id=${vehicle.id}">
-                <td>
+
+            <td>
+                <a href="/views/VehicleDetails&id=${vehicle.id}">
                         ${vehicle.model} / ${vehicle.brand} / ${vehicle.registration}
-                </td>
-            </a>
-            <td
+                </a>
+            </td>
+
+            <td>
+                <a href="/views/VehicleDelete&id=${vehicle.id}&mode=edit">
+                    edytuj
+                </a>
+            </td>
+            <td>
+                <a href="/views/VehicleDelete&id=${vehicle.id}">
+                    usuń
+                </a>
+            </td>
         </tr>
     </c:forEach>
 </table>
