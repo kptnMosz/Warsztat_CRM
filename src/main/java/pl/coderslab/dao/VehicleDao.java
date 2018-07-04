@@ -38,6 +38,21 @@ public class VehicleDao {
 
     }
 
+    public static ArrayList<Vehicle> loadByCustomer(int custId) throws SQLException {
+        ArrayList<Vehicle> list = new ArrayList<>();
+        try (Connection conn = DbUtil.getConn()) {
+            String querry = "SELECT id, model , brand, produced, registration, next_inspection, customer_id FROM vehicles WHERE customer_id =?";
+            PreparedStatement sql = conn.prepareStatement(querry);
+            sql.setInt(1, custId);
+            list = loadFromDb(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+
+    }
+
     private static ArrayList<Vehicle> loadFromDb(PreparedStatement sql) throws SQLException {
         ArrayList<Vehicle> list = new ArrayList<>();
         ResultSet rs = sql.executeQuery();
