@@ -34,11 +34,12 @@ public class CustomerDao {
             System.out.println("Wrong date format!");
         }
         String generatedColumns[] = {"ID"};
-        PreparedStatement stmt = DbUtil.getConn().prepareStatement("INSERT INTO customers(name,surname,birthday,email) VALUES (?,?,?,?)", generatedColumns);
+        PreparedStatement stmt = DbUtil.getConn().prepareStatement("INSERT INTO customers(name,surname,birthday,email,password) VALUES (?,?,?,?,?)", generatedColumns);
         stmt.setString(1, customer.getName());
         stmt.setString(2, customer.getSurname());
         stmt.setDate(3, new java.sql.Date(birthdayDate.getTime()));
         stmt.setString(4, customer.getEmail());
+        stmt.setString(5, customer.getPassword());
         stmt.executeUpdate();
         ResultSet rs = stmt.getGeneratedKeys();
         if (rs.next()) {
@@ -56,12 +57,13 @@ public class CustomerDao {
         } catch (ParseException e) {
             System.out.println("Wrong date format!");
         }
-        PreparedStatement stmt = DbUtil.getConn().prepareStatement("UPDATE customers SET name= ?, surname= ?, birthday= ?, email = ? WHERE id= ?");
+        PreparedStatement stmt = DbUtil.getConn().prepareStatement("UPDATE customers SET name= ?, surname= ?, birthday= ?, email = ?, password = ? WHERE id= ?");
         stmt.setString(1, customer.getName());
         stmt.setString(2, customer.getSurname());
         stmt.setDate(3, new java.sql.Date(birthdayDate.getTime()));
         stmt.setString(4, customer.getEmail());
-        stmt.setInt(5, id);
+        stmt.setString(5, customer.getPassword());
+        stmt.setInt(6, id);
         stmt.executeUpdate();
     }
 
@@ -93,6 +95,7 @@ public class CustomerDao {
                 loadedCustomer.setSurname(resultSet.getString("surname"));
                 loadedCustomer.setBirthdayDate(resultSet.getString("birthday"));
                 loadedCustomer.setEmail(resultSet.getString("email"));
+                loadedCustomer.setPassword(resultSet.getString("password"));
                 return loadedCustomer;
             }
 
@@ -126,6 +129,7 @@ public class CustomerDao {
                 loadedCustomer.setSurname(resultSet.getString("surname"));
                 loadedCustomer.setBirthdayDate(resultSet.getString("birthday"));
                 loadedCustomer.setEmail(resultSet.getString("email"));
+                loadedCustomer.setPassword(resultSet.getString("password"));
                 customers.add(loadedCustomer);
             }
             return customers;

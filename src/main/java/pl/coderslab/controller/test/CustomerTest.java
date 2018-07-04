@@ -26,14 +26,14 @@ public class CustomerTest extends HttpServlet {
 
         //loading all test (great success) - returns ArrayList<Customer>
 //        ArrayList<Customer> testLista = customerDao.loadAll();
-////        for (int i = 0; i < testLista.size()-1; i++) {
-////            response.getWriter().append(Arrays.toString(testLista.toArray()));
-////            response.getWriter().append("<br>");
-////        }
+//        for (int i = 0; i < testLista.size() - 3; i++) {
+//            response.getWriter().append(Arrays.toString(testLista.toArray()));
+//            response.getWriter().append("<br>");
+//        }
 
         //adding test (great success) - if id exists it will edit the customer
 //        try {
-//            customerDao.saveToDb(new Customer(3,"Janek", "Gutkowski", "1997-06-10", "jan7.gutek@gmail.com"));
+//            customerDao.saveToDb(new Customer(3,"Janek", "Gutkowski", "1997-06-10", "jan7.gutek@gmail.com", "lalala"));
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
