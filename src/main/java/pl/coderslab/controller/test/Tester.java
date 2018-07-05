@@ -34,13 +34,14 @@ public class Tester extends HttpServlet {
             Vehicle vehicle = VehicleDao.loadById(2);
             pisak.println(vehicle.toString());
             pisak.println("<br> ------======zmieniamy rok produkcji====-------");
-            vehicle.setProduced(new Random().nextInt(2000));
+            vehicle.setProduced(new Random().nextInt(200)+1900);
             VehicleDao.saveToDb(vehicle);
             pisak.println("<br> ------======ponownie ściągamy z bazy====-------");
             vehicle = VehicleDao.loadById(2);
             pisak.println("<br>"+vehicle);
             pisak.println("<br> ------======tworzymy nowy samochod====-------");
-            vehicle = new Vehicle("Fiat","Punto",1997,"WR7777", LocalDate.of(2018,10,9),1);
+            vehicle = new Vehicle("Renault","Traffic",2007,"WR" + (new Random().nextInt(200)+1900), LocalDate.of(2018,11,9),3);
+            pisak.println("<br>sprawdzamy czy lyka zmiana daty ze stringa: "+vehicle.setNextInspectionFromString("2018-09-19"));
             pisak.println("<br>"+vehicle);
             pisak.println("<br> ------======zapisujemy do bazy====-------");
             VehicleDao.saveToDb(vehicle);
