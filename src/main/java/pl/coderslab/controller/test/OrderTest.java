@@ -2,7 +2,6 @@ package pl.coderslab.controller.test;
 
 import pl.coderslab.dao.OrderDao;
 import pl.coderslab.model.Order;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
-import java.sql.SQLException;
+import java.util.ArrayList;
 
 @WebServlet(name = "OrderTest", urlPatterns = "/OrderTest")
 public class OrderTest extends HttpServlet {
@@ -32,6 +31,18 @@ public class OrderTest extends HttpServlet {
         pisak.println("<br /> ------======zapis do bazy====-------<br />");
         OrderDao.saveOrUpdate(order);
         pisak.println(order.toString());
+        pisak.println("<br /> ------======usuwanie z bazy====-------<br />");
+        int id = order.getId();
+        OrderDao.delete(order);
+        order = OrderDao.loadById(id);
+        pisak.println(order.toString());
+
+        pisak.println("<br> ------======zlecenia pracownika====-------");
+        ArrayList<Order> list =(ArrayList<Order>) OrderDao.loadAllbyEmployee(2);
+        pisak.println("<br> długość listy" + list.size());
+        for(Order ord : list){
+            pisak.println("<br>"+ord.toString());
+        }
 
 
     }
