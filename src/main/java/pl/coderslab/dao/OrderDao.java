@@ -10,50 +10,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDao {
-    private static String LOAD_ALL_ORDERS = "SELECT\n" +
-            "  acceptance,\n" +
-            "  planned_fix,\n" +
-            "  start_fix,\n" +
-            "  problem_desc,\n" +
-            "  fix_desc,\n" +
-            "  status_id,\n" +
-            "  vehicle_id,\n" +
-            "  price,\n" +
-            "  parts_cost,\n" +
-            "  labor_cost,\n" +
-            "  workhours,\n" +
-            "  employee_id\n" +
+    private static String LOAD_ALL_ORDERS = "SELECT" +
+            "  id," +
+            "  acceptance," +
+            "  planned_fix," +
+            "  start_fix," +
+            "  problem_desc," +
+            "  fix_desc," +
+            "  status_id," +
+            "  vehicle_id," +
+            "  price," +
+            "  parts_cost," +
+            "  labor_cost," +
+            "  workhours," +
+            "  employee_id" +
             "FROM orders";
-    private static String loadOrderById = "SELECT\n" +
-            "  acceptance,\n" +
-            "  planned_fix,\n" +
-            "  start_fix,\n" +
-            "  problem_desc,\n" +
-            "  fix_desc,\n" +
-            "  status_id,\n" +
-            "  vehicle_id,\n" +
-            "  price,\n" +
-            "  parts_cost,\n" +
-            "  labor_cost,\n" +
-            "  workhours,\n" +
-            "  employee_id\n" +
-            "FROM orders\n" +
-            "WHERE id = ?";
-    private static String LOAD_ALL_BY_STATUS = "SELECT\n" +
-            "  acceptance,\n" +
-            "  planned_fix,\n" +
-            "  start_fix,\n" +
-            "  problem_desc,\n" +
-            "  fix_desc,\n" +
-            "  status_id,\n" +
-            "  vehicle_id,\n" +
-            "  price,\n" +
-            "  parts_cost,\n" +
-            "  labor_cost,\n" +
-            "  workhours,\n" +
-            "  employee_id\n" +
-            "FROM orders\n" +
-            "WHERE status_id = ?";
+    private static String loadOrderById = "SELECT" +
+            "  id," +
+            "  acceptance," +
+            "  planned_fix," +
+            "  start_fix," +
+            "  problem_desc," +
+            "  fix_desc," +
+            "  status_id," +
+            "  vehicle_id," +
+            "  price," +
+            "  parts_cost," +
+            "  labor_cost," +
+            "  workhours," +
+            "  employee_id" +
+            " FROM orders" +
+            " WHERE id = ?";
+    private static String LOAD_ALL_BY_STATUS = "SELECT" +
+            "  id," +
+            "  acceptance," +
+            "  planned_fix," +
+            "  start_fix," +
+            "  problem_desc," +
+            "  fix_desc," +
+            "  status_id," +
+            "  vehicle_id," +
+            "  price," +
+            "  parts_cost," +
+            "  labor_cost," +
+            "  workhours," +
+            "  employee_id" +
+            " FROM orders" +
+            " WHERE status_id = ?";
 
 
     private static String save = "INSERT INTO orders(acceptance, planned_fix,start_fix,problem_desc,fix_desc,status_id, vehicle_id,price,parts_cost,labor_cost,workhours,employee_id) " +
@@ -173,18 +176,18 @@ public class OrderDao {
             while (rs.next()) {
                 Order orderNext = new Order();
                 orderNext.setId(rs.getInt("id"));
-                orderNext.setAcceptanceToRepair(rs.getDate("acceptanceToRepair"));
-                orderNext.setPlannedFix(rs.getDate("plannedFix"));
-                orderNext.setStartFix(rs.getDate("startFix"));
-                orderNext.setProblemDesc(rs.getString("problemDesc"));
-                orderNext.setFixDesc(rs.getString("fixDesc"));
-                orderNext.setStatusId(rs.getInt("statusId"));
-                orderNext.setRepairedVehicleId(rs.getInt("repairedVehicleId"));
+                orderNext.setAcceptanceToRepair(rs.getDate("acceptance"));
+                orderNext.setPlannedFix(rs.getDate("planned_fix"));
+                orderNext.setStartFix(rs.getDate("start_fix"));
+                orderNext.setProblemDesc(rs.getString("problem_desc"));
+                orderNext.setFixDesc(rs.getString("fix_desc"));
+                orderNext.setStatusId(rs.getInt("status_id"));
+                orderNext.setRepairedVehicleId(rs.getInt("vehicle_id"));
                 orderNext.setPrice(rs.getBigDecimal("price"));
-                orderNext.setPartsCost(rs.getBigDecimal("partsCost"));
-                orderNext.setLaborCost(rs.getBigDecimal("laborCost"));
+                orderNext.setPartsCost(rs.getBigDecimal("parts_cost"));
+                orderNext.setLaborCost(rs.getBigDecimal("labor_cost"));
                 orderNext.setWorkhours(rs.getInt("workhours"));
-                orderNext.setEmployeeId(rs.getInt("employeeId"));
+                orderNext.setEmployeeId(rs.getInt("employee_id"));
                 orders.add(orderNext);
             }
         } catch (SQLException e) {
