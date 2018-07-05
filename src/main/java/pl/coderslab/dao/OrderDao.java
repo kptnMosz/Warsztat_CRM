@@ -10,21 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDao {
-    private static String LOAD_ALL_ORDERS = "SELECT" +
-            "  id," +
-            "  acceptance," +
-            "  planned_fix," +
-            "  start_fix," +
-            "  problem_desc," +
-            "  fix_desc," +
-            "  status_id," +
-            "  vehicle_id," +
-            "  price," +
-            "  parts_cost," +
-            "  labor_cost," +
-            "  workhours," +
-            "  employee_id" +
-            "FROM orders";
+    private static String LOAD_ALL_ORDERS = "SELECT id, acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders;";
+
     private static String loadOrderById = "SELECT" +
             "  id," +
             "  acceptance," +
@@ -40,23 +27,11 @@ public class OrderDao {
             "  workhours," +
             "  employee_id" +
             " FROM orders" +
-            " WHERE id = ?";
-    private static String LOAD_ALL_BY_STATUS = "SELECT" +
-            "  id," +
-            "  acceptance," +
-            "  planned_fix," +
-            "  start_fix," +
-            "  problem_desc," +
-            "  fix_desc," +
-            "  status_id," +
-            "  vehicle_id," +
-            "  price," +
-            "  parts_cost," +
-            "  labor_cost," +
-            "  workhours," +
-            "  employee_id" +
-            " FROM orders" +
-            " WHERE status_id = ?";
+            " WHERE id = ?;";
+
+    private static String loadOrderByEmployee = "SELECT id, acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders WHERE employee_id = ?;";
+
+    private static String LOAD_ALL_BY_STATUS = "SELECT  id, acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders WHERE status_id = ?;";
 
 
     private static String save = "INSERT INTO orders(acceptance, planned_fix,start_fix,problem_desc,fix_desc,status_id, vehicle_id,price,parts_cost,labor_cost,workhours,employee_id) " +
@@ -117,10 +92,10 @@ public class OrderDao {
         }
     }
 
-    public static void delete(int id) {
+    public static void delete(Order order) {
         try (Connection conn = DbUtil.getConn()) {
             PreparedStatement sql = conn.prepareStatement(deleteById);
-            sql.setInt(1, id);
+            sql.setInt(1, order.getId());
             sql.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -137,18 +112,18 @@ public class OrderDao {
 
             while (rs.next()) {
                 order.setId(rs.getInt("id"));
-                order.setAcceptanceToRepair(rs.getDate("acceptanceToRepair"));
-                order.setPlannedFix(rs.getDate("plannedFix"));
-                order.setStartFix(rs.getDate("startFix"));
-                order.setProblemDesc(rs.getString("problemDesc"));
-                order.setFixDesc(rs.getString("fixDesc"));
-                order.setStatusId(rs.getInt("statusId"));
-                order.setRepairedVehicleId(rs.getInt("repairedVehicleId"));
+                order.setAcceptanceToRepair(rs.getDate("acceptance"));
+                order.setPlannedFix(rs.getDate("planned_fix"));
+                order.setStartFix(rs.getDate("start_fix"));
+                order.setProblemDesc(rs.getString("problem_desc"));
+                order.setFixDesc(rs.getString("fix_desc"));
+                order.setStatusId(rs.getInt("status_id"));
+                order.setRepairedVehicleId(rs.getInt("vehicle_id"));
                 order.setPrice(rs.getBigDecimal("price"));
-                order.setPartsCost(rs.getBigDecimal("partsCost"));
-                order.setLaborCost(rs.getBigDecimal("laborCost"));
+                order.setPartsCost(rs.getBigDecimal("parts_cost"));
+                order.setLaborCost(rs.getBigDecimal("labor_cost"));
                 order.setWorkhours(rs.getInt("workhours"));
-                order.setEmployeeId(rs.getInt("employeeId"));
+                order.setEmployeeId(rs.getInt("employee_id"));
             }
             return order;
         } catch (SQLException e) {
@@ -163,9 +138,18 @@ public class OrderDao {
     }
 
 
+
+    public static List<Order> loadAllOrdersPerStatus(String status) {
+        return loadList(LOAD_ALL_BY_STATUS.replaceAll("\\?", status));
+    }
+
     public static List<Order> loadAllActualOrders() {
         return loadList(LOAD_ALL_BY_STATUS.replaceAll("\\?", "3"));
 
+    }
+
+    public static List<Order> loadAllbyEmployee(int Employee_id){
+        return loadList(LOAD_ALL_BY_STATUS.replaceAll("\\?", Employee_id+""));
     }
 
     private static List<Order> loadList(String querry) {
