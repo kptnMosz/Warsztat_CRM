@@ -113,6 +113,15 @@ public class Vehicle {
         this.customerId = customerId;
     }
 
+    public Vehicle(String model, String brand, int produced, String registration, String nextInspection, int customerId) {
+        this.model = model;
+        this.brand = brand;
+        this.produced = produced;
+        this.registration = registration;
+        setNextInspectionFromString(nextInspection);
+        this.customerId = customerId;
+    }
+
     public Vehicle(int id, String model, String brand, int produced, String registration, LocalDate nextInspection, int customerId) {
         this.id = id;
         this.model = model;
