@@ -1,6 +1,8 @@
 package pl.coderslab.controller;
 
+import pl.coderslab.dao.OrderDao;
 import pl.coderslab.dao.VehicleDao;
+import pl.coderslab.model.Order;
 import pl.coderslab.model.Vehicle;
 
 import javax.servlet.ServletException;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,13 +65,17 @@ public class VehicleDetails extends HttpServlet {
                 }
 
                 request.setAttribute("vehicle", vehicleTest);
-                //todo lista napraw
+
+                ArrayList<Order> orderList = (ArrayList<Order>) OrderDao.loadAllbyVehicle(id);
+                request.setAttribute("orders",orderList);
                 request.getRequestDispatcher("/views/vehicleDetails.jsp").forward(request, response);
             } else {
                 response.getWriter().append("Nie udało sie załadowac pojazdu o tym id");
             }
-        } catch (SQLException | NumberFormatException e) {
+        } catch (NumberFormatException e) {
             response.getWriter().append("Nieprawidlowe id pojazdu");
+        } catch (SQLException e){
+            response.getWriter().append("Błąd bazy danych");
         }
     }
 }
