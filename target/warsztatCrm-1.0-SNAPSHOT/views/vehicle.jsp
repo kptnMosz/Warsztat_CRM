@@ -14,7 +14,9 @@
 </head>
 <body>
 <%@ include file="../fragments/header.jsp" %>
-
+<p>
+    <a href="/VehicleNew${empty param.customer? "" : "?custid="} ${empty param.customer? "" : param.customer}">Dodaj Pojazd</a>
+</p>
 <table>
     <c:forEach var="vehicle" items="${vehicles}">
         <tr>

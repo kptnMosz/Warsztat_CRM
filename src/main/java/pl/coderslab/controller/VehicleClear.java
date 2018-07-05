@@ -20,6 +20,8 @@ public class VehicleClear extends HttpServlet {
             Vehicle vehicleTest = VehicleDao.loadById(id);
             if (vehicleTest != null || vehicleTest.getId() != 0) {
                 VehicleDao.clearCustomer(vehicleTest);
+                response.getWriter().append("pojazd usuniety z pojazdow klienta.<br />");
+                response.getWriter().append(VehicleDao.loadById(id).toString());
             }
         } catch (SQLException | NumberFormatException e) {
             response.getWriter().append("Nieprawidlowe id pojazdu");
@@ -37,9 +39,11 @@ public class VehicleClear extends HttpServlet {
         try {
             int id = Integer.parseInt(vehId);
             Vehicle vehicleTest = VehicleDao.loadById(id);
-            if (vehicleTest != null || vehicleTest.getId() != 0) {
+            if (vehicleTest != null && vehicleTest.getId() != 0) {
                 request.setAttribute("vehicle", vehicleTest);
                 request.getRequestDispatcher("/views/vehicleClear.jsp").forward(request, response);
+                response.getWriter().append("pojazd usuniety z pojazdow klienta.<br />");
+                response.getWriter().append(VehicleDao.loadById(id).toString());
             }
         } catch (SQLException | NumberFormatException e) {
             response.getWriter().append("Nieprawidlowe id pojazdu");

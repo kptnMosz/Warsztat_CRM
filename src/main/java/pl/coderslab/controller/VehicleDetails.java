@@ -10,10 +10,38 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebServlet(name = "VehicleDetails", urlPatterns = "/VehicleDetails")
 public class VehicleDetails extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF8");
+        response.setContentType("text/html, charset:utf-8");
+        String strId = request.getParameter("id");
+        response.getWriter().append(strId + "<br>");
+        try {
+            int id = Integer.parseInt(strId);
+            response.getWriter().append(id + "<br>");
+            Vehicle vehicle = VehicleDao.loadById(id);
+            String model = request.getParameter("model");
+            String brand = request.getParameter("brand");
+            String registration = request.getParameter("registration");
+            String nextInspection = request.getParameter("nextInspection");
+            boolean zmianadaty = vehicle.setNextInspectionFromString(nextInspection);
+            if (!zmianadaty) {
+                response.getWriter().append("<br>nie powiodła sie zmiana daty nastepnego przegladu na:" + nextInspection);
+            }
+
+            vehicle.setModel(model);
+            vehicle.setBrand(brand);
+            vehicle.setRegistration(registration);
+            VehicleDao.saveToDb(vehicle);
+            vehicle = VehicleDao.loadById(id);
+            response.getWriter().append("<br />-------=======nowe dane pojazdu:========--------<br />" + vehicle.toString());
+        } catch (SQLException | NumberFormatException e) {
+            response.getWriter().append("Nieprawidlowe dane" + e.getMessage() + e.getCause());
+        }
 
     }
 
@@ -28,7 +56,7 @@ public class VehicleDetails extends HttpServlet {
             if (vehicleTest != null && vehicleTest.getId() != 0) {
                 if ("edit".equals(request.getParameter("mode"))) {
                     //todo znalezc lepszy sposob na ponizsze
-                    request.setAttribute("editable", true);
+                    request.setAttribute("editable", "true");
                 } else {
                     request.setAttribute("editable", "");
                 }

@@ -2,6 +2,8 @@ package pl.coderslab.model;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Vehicle {
 
@@ -59,6 +61,30 @@ public class Vehicle {
         this.nextInspection = nextInspection;
     }
 
+    /**
+     * seter do ustawiania  daty ze stringa
+     * format daty musi byc taki:
+     * rrrr-mm-dd lub rrrr/mm/dd
+     *
+     * @return true jesli format tekstu byl prawidlowy, false jesli nie
+     * jesli format jest nieprawidlowy, data nie zostanie zmieniona
+     */
+    public boolean setNextInspectionFromString(String nextInspectionString) {
+        Pattern pattern = Pattern.compile("[12][0-9]{3}\\-[01][0-9]\\-[0-3][0-9]");
+        Matcher matcher = pattern.matcher(nextInspectionString);
+        if (matcher.matches()) {
+            this.nextInspection = LocalDate.parse(nextInspectionString);
+            return true;
+        }
+        pattern = Pattern.compile("[12][0-9]{3}\\/[01][0-9]\\/[0-3][0-9]");
+        matcher = pattern.matcher(nextInspectionString);
+        if (matcher.matches()) {
+            this.nextInspection = LocalDate.parse(nextInspectionString.replaceAll("\\/", "-"));
+            return true;
+        }
+        return false;
+    }
+
     public int getCustomerId() {
         return customerId;
     }
@@ -84,6 +110,15 @@ public class Vehicle {
         this.produced = produced;
         this.registration = registration;
         this.nextInspection = nextInspection;
+        this.customerId = customerId;
+    }
+
+    public Vehicle(String model, String brand, int produced, String registration, String nextInspection, int customerId) {
+        this.model = model;
+        this.brand = brand;
+        this.produced = produced;
+        this.registration = registration;
+        setNextInspectionFromString(nextInspection);
         this.customerId = customerId;
     }
 
