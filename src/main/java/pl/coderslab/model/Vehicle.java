@@ -2,6 +2,8 @@ package pl.coderslab.model;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Vehicle {
 
@@ -57,6 +59,30 @@ public class Vehicle {
 
     public void setNextInspection(LocalDate nextInspection) {
         this.nextInspection = nextInspection;
+    }
+
+    /**
+     * seter do ustawiania  daty ze stringa
+     * format daty musi byc taki:
+     * rrrr-mm-dd lub rrrr/mm/dd
+     *
+     * @return true jesli format tekstu byl prawidlowy, false jesli nie
+     * jesli format jest nieprawidlowy, data nie zostanie zmieniona
+     */
+    public boolean setNextInspectionFromString(String nextInspectionString) {
+        Pattern pattern = Pattern.compile("[12][0-9]{3}\\-[01][0-9]\\-[0-3][0-9]");
+        Matcher matcher = pattern.matcher(nextInspectionString);
+        if (matcher.matches()) {
+            this.nextInspection = LocalDate.parse(nextInspectionString);
+            return true;
+        }
+        pattern = Pattern.compile("[12][0-9]{3}\\/[01][0-9]\\/[0-3][0-9]");
+        matcher = pattern.matcher(nextInspectionString);
+        if (matcher.matches()) {
+            this.nextInspection = LocalDate.parse(nextInspectionString.replaceAll("\\/", "-"));
+            return true;
+        }
+        return false;
     }
 
     public int getCustomerId() {
