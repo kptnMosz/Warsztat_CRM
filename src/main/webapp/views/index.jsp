@@ -10,10 +10,10 @@
 <html>
 <head>
     <title>Warsztat CRM</title>
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
-
 <%@ include file="../fragments/header.jsp" %>
 <br>
 <h4>Otwarte zlecenia:</h4>
@@ -34,13 +34,18 @@
             </td>
             <td>
                 <a href="../OrderDetails?id=${order.id}">
+                        ${order.repairedVehicleId}
+                </a>
+            </td>
+            <td>
+                <a href="../OrderDetails?id=${order.id}">
                         ${order.employeeId}
                 </a>
             </td>
 
             <td>
                 <a href="../OrderDetails?id=${order.id}">
-                        ${order.description}
+                        ${order.problemDesc}
                 </a>
             </td>
 
