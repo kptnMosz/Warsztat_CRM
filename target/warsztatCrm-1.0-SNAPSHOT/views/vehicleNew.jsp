@@ -28,7 +28,7 @@
             <td><input name="registration" type="text" /></td>
         </tr>
         <tr>
-            <td>produced in::</td>
+            <td>produced in:</td>
             <td><input name="produced" type="text" /></td>
         </tr>
         <tr>

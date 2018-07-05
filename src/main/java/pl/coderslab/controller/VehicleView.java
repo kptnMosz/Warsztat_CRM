@@ -40,13 +40,9 @@ public class VehicleView extends HttpServlet {
         }
 //todo dodac etykietke Customera po poprawieniu bledu w DAO
 //        Customer pan = CustomerDao.loadById(custId);
-        try {
             vehiclesForCustomer = VehicleDao.loadByCustomer(custId);
 
-        } catch (SQLException e) {
-            pisak.println("Coś nie poszlo " + e.getMessage());
-            e.printStackTrace();
-        }
+
         request.setAttribute("vehicles", vehiclesForCustomer);
         request.getRequestDispatcher("/views/vehicle.jsp").forward(request, response);
     }

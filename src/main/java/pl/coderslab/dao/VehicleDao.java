@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class VehicleDao {
 
-    public static ArrayList<Vehicle> loadAll() throws SQLException {
+    public static ArrayList<Vehicle> loadAll() {
         ArrayList<Vehicle> list = new ArrayList<>();
         try (Connection conn = DbUtil.getConn()) {
             PreparedStatement sql = conn.prepareStatement("SELECT id, model , brand, produced, registration, next_inspection, customer_id FROM vehicles;");
@@ -23,7 +23,7 @@ public class VehicleDao {
         return list;
     }
 
-    public static ArrayList<Vehicle> loadAll(int limit) throws SQLException {
+    public static ArrayList<Vehicle> loadAll(int limit) {
         ArrayList<Vehicle> list = new ArrayList<>();
         try (Connection conn = DbUtil.getConn()) {
             String querry = "SELECT id, model , brand, produced, registration, next_inspection, customer_id FROM vehicles ORDER BY next_inspection DESC LIMIT ?";
@@ -38,7 +38,7 @@ public class VehicleDao {
 
     }
 
-    public static ArrayList<Vehicle> loadByCustomer(int custId) throws SQLException {
+    public static ArrayList<Vehicle> loadByCustomer(int custId) {
         ArrayList<Vehicle> list = new ArrayList<>();
         try (Connection conn = DbUtil.getConn()) {
             String querry = "SELECT id, model , brand, produced, registration, next_inspection, customer_id FROM vehicles WHERE customer_id =?";

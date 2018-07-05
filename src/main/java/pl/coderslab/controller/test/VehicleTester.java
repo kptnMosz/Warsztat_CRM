@@ -19,8 +19,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 
-@WebServlet(name = "Tester", urlPatterns = "/testVehicle")
-public class Tester extends HttpServlet {
+@WebServlet(name = "VehicleTester", urlPatterns = "/testVehicle")
+public class VehicleTester extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }

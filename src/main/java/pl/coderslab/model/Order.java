@@ -1,14 +1,11 @@
 package pl.coderslab.model;
 
-import sun.util.calendar.LocalGregorianCalendar;
 
 import java.sql.Date;
-import java.time.LocalDate;
-
 import java.math.BigDecimal;
 
 public class Order {
-    private int id;
+    private int id=0;
     private Date acceptanceToRepair;
     private Date plannedFix;
     private Date startFix;
@@ -22,12 +19,29 @@ public class Order {
     private BigDecimal laborCost;
     private int workhours;
     private int employeeId;
+
     public Order(){
 
     }
 
     public Order(int id, Date acceptanceToRepair, Date plannedFix, Date startFix, int employeeId, String problemDesc, String fixDesc, int statusId, int repairedVehicleId,BigDecimal price, BigDecimal partsCost, BigDecimal laborCost, int workhours) {
         this.id = id;
+        this.acceptanceToRepair = acceptanceToRepair;
+        this.plannedFix = plannedFix;
+        this.startFix = startFix;
+        this.employeeId = employeeId;
+        this.problemDesc = problemDesc;
+        this.fixDesc = fixDesc;
+        this.statusId = statusId;
+        this.repairedVehicleId = repairedVehicleId;
+        this.price=price;
+        this.partsCost = partsCost;
+        this.laborCost = laborCost;
+        this.workhours = workhours;
+    }
+
+    public Order(Date acceptanceToRepair, Date plannedFix, Date startFix, int employeeId, String problemDesc, String fixDesc, int statusId, int repairedVehicleId,BigDecimal price, BigDecimal partsCost, BigDecimal laborCost, int workhours) {
+
         this.acceptanceToRepair = acceptanceToRepair;
         this.plannedFix = plannedFix;
         this.startFix = startFix;
@@ -145,5 +159,24 @@ public class Order {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", acceptanceToRepair=" + acceptanceToRepair +
+                ", plannedFix=" + plannedFix +
+                ", startFix=" + startFix +
+                ", problemDesc='" + problemDesc + '\'' +
+                ", fixDesc='" + fixDesc + '\'' +
+                ", statusId=" + statusId +
+                ", repairedVehicleId=" + repairedVehicleId +
+                ", price=" + price +
+                ", partsCost=" + partsCost +
+                ", laborCost=" + laborCost +
+                ", workhours=" + workhours +
+                ", employeeId=" + employeeId +
+                '}';
     }
 }
