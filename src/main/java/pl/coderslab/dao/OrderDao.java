@@ -29,6 +29,9 @@ public class OrderDao {
             " FROM orders" +
             " WHERE id = ?;";
 
+
+    private static String loadOrderByVehicle = "SELECT id, acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders WHERE vehicle_id = ?;";
+
     private static String loadOrderByEmployee = "SELECT id, acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders WHERE employee_id = ?;";
 
     private static String LOAD_ALL_BY_STATUS = "SELECT  id, acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders WHERE status_id = ?;";
@@ -148,8 +151,12 @@ public class OrderDao {
 
     }
 
-    public static List<Order> loadAllbyEmployee(int Employee_id){
-        return loadList(LOAD_ALL_BY_STATUS.replaceAll("\\?", Employee_id+""));
+    public static List<Order> loadAllbyEmployee(int employeeId){
+        return loadList(loadOrderByEmployee.replaceAll("\\?", employeeId+""));
+    }
+
+    public static List<Order> loadAllbyVehicle(int vehicleId){
+        return loadList(loadOrderByVehicle.replaceAll("\\?", vehicleId+""));
     }
 
     private static List<Order> loadList(String querry) {
