@@ -9,17 +9,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Warsztat_CRM</title>
+    <title>Zlecenia</title>
     <link href="../css/style.css" rel="stylesheet" type="text/css" />
 
 </head>
 <body>
 <%@ include file="../fragments/header.jsp" %>
 <br>
-<h4>Otwarte zlecenia:</h4>
+<h4>Zlecenia</h4>
+filtr:
+<form method="post" action="/OrderView">
+Customer:<input type="text" value="${filterCustomerId}" name="filterCustomerId"><br />
+Status: <input type="text" value="${filterStatusId}" name="filterStatusId"><br />
+    <input type="submit" />
+</form>
+
 <table>
     <tr>
         <th>status</th>
+        <th>owner</th>
         <th>car</th>
         <th>employee</th>
         <th>description</th>
@@ -28,23 +36,28 @@
         <tr>
 
             <td>
-                <a href="../OrderDetails?id=${order.id}">
+                <a href="../OrderDetails?orderid=${order.id}">
                         ${order.statusId}
                 </a>
             </td>
             <td>
-                <a href="../OrderDetails?id=${order.id}">
+                <a href="../CustomerDetails?customerid=${order.vehicle.customerId}">
+                        ${order.vehicle.customerId}
+                </a>
+            </td>
+            <td>
+                <a href="../VehicleDetails?vehicleid=${order.repairedVehicleId}">
                         ${order.repairedVehicleId}
                 </a>
             </td>
             <td>
-                <a href="../OrderDetails?id=${order.id}">
+                <a href="../EmployeeDetails?employeeid=${order.employeeId}">
                         ${order.employeeId}
                 </a>
             </td>
 
             <td>
-                <a href="../OrderDetails?id=${order.id}">
+                <a href="../OrderDetails?orderid=${order.id}">
                         ${order.problemDesc}
                 </a>
             </td>
