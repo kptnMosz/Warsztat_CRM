@@ -5,11 +5,10 @@ import pl.coderslab.DateUtil;
 import pl.coderslab.dao.EmployeeDao;
 import pl.coderslab.dao.StatusDao;
 import pl.coderslab.dao.VehicleDao;
+
 import java.sql.Date;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 public class Order {
@@ -24,12 +23,15 @@ public class Order {
     private BigDecimal price;
     private BigDecimal partsCost;
     private BigDecimal laborCost;
-    private int workhours;
+    private int workhours = 0;
     private int employeeId;
 
     //    -----=====zmienne pomocnicze=====-----
     private Vehicle vehicle;
     private String statusName;
+
+
+
     private Employee employee;
 
     //    -----======konstruktory======-------
@@ -58,7 +60,7 @@ public class Order {
         this.acceptanceToRepair = acceptanceToRepair;
         this.plannedFix = plannedFix;
         this.startFix = startFix;
-        this.employeeId = employeeId;
+        setEmployeeId(employeeId);
         this.problemDesc = problemDesc;
         this.fixDesc = fixDesc;
         setStatusId(statusId);
@@ -74,7 +76,7 @@ public class Order {
         setAcceptanceToRepair(acceptanceToRepair);
         setPlannedFix(plannedFix);
         setStartFix(startFix);
-        this.employeeId = employeeId;
+        setEmployeeId(employeeId);
         this.problemDesc = problemDesc;
         this.fixDesc = fixDesc;
         setStatusId(statusId);
@@ -90,7 +92,7 @@ public class Order {
         setAcceptanceToRepair(acceptanceToRepair);
         setPlannedFix(plannedFix);
         setStartFix(startFix);
-        this.employeeId = employeeId;
+        setEmployeeId(employeeId);
         this.problemDesc = problemDesc;
         this.fixDesc = fixDesc;
         setStatusId(statusId);
@@ -117,8 +119,9 @@ public class Order {
     public LocalDate getAcceptanceToRepair() {
         return acceptanceToRepair;
     }
+
     public Date getAcceptanceToRepairInSql() {
-        if(acceptanceToRepair==null){
+        if (acceptanceToRepair == null) {
             return null;
         }
         return Date.valueOf(acceptanceToRepair);
@@ -130,8 +133,8 @@ public class Order {
     }
 
     public void setAcceptanceToRepair(Date acceptanceToRepair) {
-        if(acceptanceToRepair==null){
-            this.acceptanceToRepair =null;
+        if (acceptanceToRepair == null) {
+            this.acceptanceToRepair = null;
             return;
         }
         this.acceptanceToRepair = acceptanceToRepair.toLocalDate();
@@ -143,7 +146,7 @@ public class Order {
     }
 
     public Date getPlannedFixInSql() {
-        if(plannedFix==null){
+        if (plannedFix == null) {
             return null;
         }
         return Date.valueOf(plannedFix);
@@ -154,8 +157,8 @@ public class Order {
     }
 
     public void setPlannedFix(Date plannedFix) {
-        if(plannedFix==null){
-            this.plannedFix=null;
+        if (plannedFix == null) {
+            this.plannedFix = null;
             return;
         }
         this.plannedFix = plannedFix.toLocalDate();
@@ -166,7 +169,7 @@ public class Order {
     }
 
     public Date getStartFixInSql() {
-        if(plannedFix==null){
+        if (plannedFix == null) {
             return null;
         }
         return Date.valueOf(startFix);
@@ -177,12 +180,16 @@ public class Order {
     }
 
     public void setStartFix(Date startFix) {
-        if(startFix == null){
+        if (startFix == null) {
             this.startFix = null;
             return;
         }
-            this.startFix = startFix.toLocalDate();
+        this.startFix = startFix.toLocalDate();
 
+    }
+
+    public Employee getEmployee() {
+        return employee;
     }
 
     /**
@@ -195,8 +202,8 @@ public class Order {
      */
     public boolean setStartFix(String startFix) {
         LocalDate bufor = DateUtil.setDateFormString(startFix);
-        boolean sukces = bufor!=null;
-        if(sukces) {
+        boolean sukces = bufor != null;
+        if (sukces) {
             this.startFix = bufor;
             return true;
         }
@@ -213,8 +220,8 @@ public class Order {
      */
     public boolean setPlannedFix(String plannedFix) {
         LocalDate bufor = DateUtil.setDateFormString(plannedFix);
-        boolean sukces = bufor!=null;
-        if(sukces) {
+        boolean sukces = bufor != null;
+        if (sukces) {
             this.plannedFix = bufor;
             return true;
         }
@@ -231,8 +238,8 @@ public class Order {
      */
     public boolean setAcceptanceToRepair(String accToRep) {
         LocalDate bufor = DateUtil.setDateFormString(accToRep);
-        boolean sukces = bufor!=null;
-        if(sukces) {
+        boolean sukces = bufor != null;
+        if (sukces) {
             this.acceptanceToRepair = bufor;
             return true;
         }
@@ -244,8 +251,12 @@ public class Order {
     }
 
     public void setEmployeeId(int employeeId) {
-
-        this.employeeId = employeeId;
+        try {
+            this.employee = EmployeeDao.loadById(employeeId);
+            this.employeeId = employeeId;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getProblemDesc() {
@@ -312,7 +323,15 @@ public class Order {
         return workhours;
     }
 
+    //tylko do użycia przy tworzeniu obiektu
     public void setWorkhours(int workhours) {
+        this.workhours = workhours;
+    }
+
+    public void addWorkhours(int workhours) {
+        BigDecimal delta = new BigDecimal((workhours - this.workhours) + 0.0);
+        BigDecimal newLabor = employee.getWage().multiply(delta);
+        this.laborCost.add(newLabor);
         this.workhours = workhours;
     }
 
