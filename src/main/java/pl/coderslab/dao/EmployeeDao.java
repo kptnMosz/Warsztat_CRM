@@ -19,11 +19,6 @@ public class EmployeeDao {
     private static String deleteEmployee = "DELETE FROM employees WHERE id=?";
     private static String loadedById = "SELECT * FROM employees WHERE id=?";
 
-    //ogólnie jeszcze wybranie pracownika po ID pozostało ale zastanawiam się czy wstawić to tutaj
-    // czy też zrobić servlet z takim zachowaniem
-    //w tym przypadku nizej umieszczam sql zapytanie
-    //private String selectById="SELECT * FROM employees WHERE id=?";
-
     public List<Employee> loadAll() {
 
         List<Employee> employees = new ArrayList<>();
@@ -65,7 +60,7 @@ public class EmployeeDao {
     public static void addToDb(Employee employee) throws SQLException {
 
         Connection conn = DbUtil.getConn();
-        PreparedStatement sql = conn.prepareStatement(saveEmployee);
+        PreparedStatement sql = conn.prepareStatement(saveEmployee, new String[] {"id"} );
         sql.setString(1, employee.getName());
         sql.setString(2, employee.getSurname());
         sql.setString(3, employee.getAdress());
@@ -144,6 +139,7 @@ public class EmployeeDao {
         Employee employee = null;
         try (Connection conn = DbUtil.getConn()) {
             PreparedStatement sql = conn.prepareStatement(loadedById);
+            sql.setInt(1,id);
             ResultSet rs = sql.executeQuery();
             if (rs.next()) {
                 String name = rs.getString("name");
