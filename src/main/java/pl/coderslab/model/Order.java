@@ -1,15 +1,21 @@
 package pl.coderslab.model;
 
 
+import pl.coderslab.DateUtil;
+import pl.coderslab.dao.StatusDao;
+import pl.coderslab.dao.VehicleDao;
 import java.sql.Date;
 import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 public class Order {
-    private int id=0;
-    private Date acceptanceToRepair;
-    private Date plannedFix;
-    private Date startFix;
-
+    private int id = 0;
+    private LocalDate acceptanceToRepair;
+    private LocalDate plannedFix;
+    private LocalDate startFix;
     private String problemDesc;
     private String fixDesc;
     private int statusId;
@@ -20,11 +26,17 @@ public class Order {
     private int workhours;
     private int employeeId;
 
-    public Order(){
+    //    -----=====zmienne pomocnicze=====-----
+    private Vehicle vehicle;
+    private String statusName;
+    DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+
+    //    -----======konstruktory======-------
+    public Order() {
 
     }
 
-    public Order(int id, Date acceptanceToRepair, Date plannedFix, Date startFix, int employeeId, String problemDesc, String fixDesc, int statusId, int repairedVehicleId,BigDecimal price, BigDecimal partsCost, BigDecimal laborCost, int workhours) {
+    public Order(int id, LocalDate acceptanceToRepair, LocalDate plannedFix, LocalDate startFix, int employeeId, String problemDesc, String fixDesc, int statusId, int repairedVehicleId, BigDecimal price, BigDecimal partsCost, BigDecimal laborCost, int workhours) {
         this.id = id;
         this.acceptanceToRepair = acceptanceToRepair;
         this.plannedFix = plannedFix;
@@ -32,15 +44,15 @@ public class Order {
         this.employeeId = employeeId;
         this.problemDesc = problemDesc;
         this.fixDesc = fixDesc;
-        this.statusId = statusId;
-        this.repairedVehicleId = repairedVehicleId;
-        this.price=price;
+        setStatusId(statusId);
+        setRepairedVehicleId(repairedVehicleId);
+        this.price = price;
         this.partsCost = partsCost;
         this.laborCost = laborCost;
         this.workhours = workhours;
     }
 
-    public Order(Date acceptanceToRepair, Date plannedFix, Date startFix, int employeeId, String problemDesc, String fixDesc, int statusId, int repairedVehicleId,BigDecimal price, BigDecimal partsCost, BigDecimal laborCost, int workhours) {
+    public Order(LocalDate acceptanceToRepair, LocalDate plannedFix, LocalDate startFix, int employeeId, String problemDesc, String fixDesc, int statusId, int repairedVehicleId, BigDecimal price, BigDecimal partsCost, BigDecimal laborCost, int workhours) {
 
         this.acceptanceToRepair = acceptanceToRepair;
         this.plannedFix = plannedFix;
@@ -48,12 +60,49 @@ public class Order {
         this.employeeId = employeeId;
         this.problemDesc = problemDesc;
         this.fixDesc = fixDesc;
-        this.statusId = statusId;
-        this.repairedVehicleId = repairedVehicleId;
-        this.price=price;
+        setStatusId(statusId);
+        setRepairedVehicleId(repairedVehicleId);
+        this.price = price;
         this.partsCost = partsCost;
         this.laborCost = laborCost;
         this.workhours = workhours;
+    }
+
+    public Order(int id, String acceptanceToRepair, String plannedFix, String startFix, int employeeId, String problemDesc, String fixDesc, int statusId, int repairedVehicleId, BigDecimal price, BigDecimal partsCost, BigDecimal laborCost, int workhours) {
+        this.id = id;
+        setAcceptanceToRepair(acceptanceToRepair);
+        setPlannedFix(plannedFix);
+        setStartFix(startFix);
+        this.employeeId = employeeId;
+        this.problemDesc = problemDesc;
+        this.fixDesc = fixDesc;
+        setStatusId(statusId);
+        setRepairedVehicleId(repairedVehicleId);
+        this.price = price;
+        this.partsCost = partsCost;
+        this.laborCost = laborCost;
+        this.workhours = workhours;
+    }
+
+    public Order(String acceptanceToRepair, String plannedFix, String startFix, int employeeId, String problemDesc, String fixDesc, int statusId, int repairedVehicleId, BigDecimal price, BigDecimal partsCost, BigDecimal laborCost, int workhours) {
+
+        setAcceptanceToRepair(acceptanceToRepair);
+        setPlannedFix(plannedFix);
+        setStartFix(startFix);
+        this.employeeId = employeeId;
+        this.problemDesc = problemDesc;
+        this.fixDesc = fixDesc;
+        setStatusId(statusId);
+        setRepairedVehicleId(repairedVehicleId);
+        this.price = price;
+        this.partsCost = partsCost;
+        this.laborCost = laborCost;
+        this.workhours = workhours;
+    }
+
+    //    ------======gettery i settery=====-------
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
     public int getId() {
@@ -64,29 +113,129 @@ public class Order {
         this.id = id;
     }
 
-    public Date getAcceptanceToRepair() {
+    public LocalDate getAcceptanceToRepair() {
         return acceptanceToRepair;
+    }
+    public Date getAcceptanceToRepairInSql() {
+        if(acceptanceToRepair==null){
+            return null;
+        }
+        return Date.valueOf(acceptanceToRepair);
+    }
+
+    public void setAcceptanceToRepair(LocalDate acceptanceToRepair) {
+        this.acceptanceToRepair = acceptanceToRepair;
+        // return acceptanceToRepair;
     }
 
     public void setAcceptanceToRepair(Date acceptanceToRepair) {
-        this.acceptanceToRepair = acceptanceToRepair;
-       // return acceptanceToRepair;
+        if(acceptanceToRepair==null){
+            this.acceptanceToRepair =null;
+            return;
+        }
+        this.acceptanceToRepair = acceptanceToRepair.toLocalDate();
+        // return acceptanceToRepair;
     }
 
-    public Date getPlannedFix() {
+    public LocalDate getPlannedFix() {
         return plannedFix;
     }
 
-    public void setPlannedFix(Date plannedFix) {
+    public Date getPlannedFixInSql() {
+        if(plannedFix==null){
+            return null;
+        }
+        return Date.valueOf(plannedFix);
+    }
+
+    public void setPlannedFix(LocalDate plannedFix) {
         this.plannedFix = plannedFix;
     }
 
-    public Date getStartFix() {
+    public void setPlannedFix(Date plannedFix) {
+        if(plannedFix==null){
+            this.plannedFix=null;
+            return;
+        }
+        this.plannedFix = plannedFix.toLocalDate();
+    }
+
+    public LocalDate getStartFix() {
         return startFix;
     }
 
-    public void setStartFix(Date startFix) {
+    public Date getStartFixInSql() {
+        if(plannedFix==null){
+            return null;
+        }
+        return Date.valueOf(startFix);
+    }
+
+    public void setStartFix(LocalDate startFix) {
         this.startFix = startFix;
+    }
+
+    public void setStartFix(Date startFix) {
+        if(startFix == null){
+            this.startFix = null;
+            return;
+        }
+            this.startFix = startFix.toLocalDate();
+
+    }
+
+    /**
+     * seter do ustawiania  daty ze stringa
+     * format daty musi byc taki:
+     * rrrr-mm-dd lub rrrr/mm/dd
+     *
+     * @return true jesli format tekstu byl prawidlowy, false jesli nie
+     * jesli format jest nieprawidlowy, data nie zostanie zmieniona
+     */
+    public boolean setStartFix(String startFix) {
+        LocalDate bufor = DateUtil.setDateFormString(startFix);
+        boolean sukces = bufor!=null;
+        if(sukces) {
+            this.startFix = bufor;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * seter do ustawiania  daty ze stringa
+     * format daty musi byc taki:
+     * rrrr-mm-dd lub rrrr/mm/dd
+     *
+     * @return true jesli format tekstu byl prawidlowy, false jesli nie
+     * jesli format jest nieprawidlowy, data nie zostanie zmieniona
+     */
+    public boolean setPlannedFix(String plannedFix) {
+        LocalDate bufor = DateUtil.setDateFormString(plannedFix);
+        boolean sukces = bufor!=null;
+        if(sukces) {
+            this.plannedFix = bufor;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * seter do ustawiania  daty ze stringa
+     * format daty musi byc taki:
+     * rrrr-mm-dd lub rrrr/mm/dd
+     *
+     * @return true jesli format tekstu byl prawidlowy, false jesli nie
+     * jesli format jest nieprawidlowy, data nie zostanie zmieniona
+     */
+    public boolean setAcceptanceToRepair(String accToRep) {
+        LocalDate bufor = DateUtil.setDateFormString(accToRep);
+        boolean sukces = bufor!=null;
+        if(sukces) {
+            this.acceptanceToRepair = bufor;
+            return true;
+        }
+        return false;
     }
 
     public int getEmployeeId() {
@@ -119,6 +268,12 @@ public class Order {
 
     public void setStatusId(int statusId) {
         this.statusId = statusId;
+        try {
+            statusName = StatusDao.getName(statusId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            statusName = "status nieznany";
+        }
     }
 
     public int getRepairedVehicleId() {
@@ -127,6 +282,12 @@ public class Order {
 
     public void setRepairedVehicleId(int repairedVehicleId) {
         this.repairedVehicleId = repairedVehicleId;
+        try {
+            vehicle = VehicleDao.loadById(repairedVehicleId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("problem z załadowaniem samochodu z bazy danych");
+        }
     }
 
     public BigDecimal getPartsCost() {
@@ -160,6 +321,12 @@ public class Order {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
+
+    public String getStatusName() {
+        return statusName;
+    }
+
 
     @Override
     public String toString() {

@@ -22,10 +22,15 @@ public class OrderTest extends HttpServlet {
         request.setCharacterEncoding("UTF8");
         response.setContentType("text/html, charset:utf-8");
 
-        PrintWriter pisak = response.getWriter();
+        Order orderNull = OrderDao.loadById(9);
 
+        PrintWriter pisak = response.getWriter();
+        pisak.println(orderNull.getAcceptanceToRepairInSql());
         pisak.println("<br /> ------======nowe zamowienie====-------<br />");
-        Order order = new Order(Date.valueOf("2018-09-06"), Date.valueOf("2018-09-16"), Date.valueOf("2018-09-16"), 2, "test", "", 2, 2, null, null, null, 0);
+        Order order = new Order("2018-12-06", "2018-12-16", "2018-12-16", 2, "test", "", 2, 2, null, null, null, 0);
+        pisak.println(order.toString());
+
+        order.setStartFix("2018-12-31");
         pisak.println(order.toString());
 
         pisak.println("<br /> ------======zapis do bazy====-------<br />");

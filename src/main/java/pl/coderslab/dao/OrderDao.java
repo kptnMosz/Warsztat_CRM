@@ -49,9 +49,9 @@ public class OrderDao {
             try (Connection conn = DbUtil.getConn()) {
                 String[] createColumn = {"id"};
                 PreparedStatement sql = conn.prepareStatement(save, createColumn);
-                sql.setDate(1, order.getAcceptanceToRepair());
-                sql.setDate(2, order.getPlannedFix());
-                sql.setDate(3, order.getStartFix());
+                sql.setDate(1, order.getAcceptanceToRepairInSql());
+                sql.setDate(2, order.getPlannedFixInSql());
+                sql.setDate(3, order.getStartFixInSql());
                 sql.setString(4, order.getProblemDesc());
                 sql.setString(5, order.getFixDesc());
                 sql.setInt(6, order.getStatusId());
@@ -73,9 +73,9 @@ public class OrderDao {
         } else {
             try (Connection conn = DbUtil.getConn()) {
                 PreparedStatement sql = conn.prepareStatement(updateById);
-                sql.setDate(1, order.getAcceptanceToRepair());
-                sql.setDate(2, order.getPlannedFix());
-                sql.setDate(3, order.getStartFix());
+                sql.setDate(1, order.getAcceptanceToRepairInSql());
+                sql.setDate(2, order.getPlannedFixInSql());
+                sql.setDate(3, order.getStartFixInSql());
                 sql.setString(4, order.getProblemDesc());
                 sql.setString(5, order.getFixDesc());
                 sql.setInt(6, order.getStatusId());

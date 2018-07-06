@@ -1,5 +1,7 @@
 package pl.coderslab.model;
 
+import pl.coderslab.DateUtil;
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
@@ -54,7 +56,12 @@ public class Vehicle {
     }
 
     public Date getNextInspectionInSqlFormat() {
+
+        if(nextInspection==null) {
+            return null;
+        }
         return Date.valueOf(nextInspection);
+
     }
 
     public void setNextInspection(LocalDate nextInspection) {
@@ -70,16 +77,10 @@ public class Vehicle {
      * jesli format jest nieprawidlowy, data nie zostanie zmieniona
      */
     public boolean setNextInspectionFromString(String nextInspectionString) {
-        Pattern pattern = Pattern.compile("[12][0-9]{3}\\-[01][0-9]\\-[0-3][0-9]");
-        Matcher matcher = pattern.matcher(nextInspectionString);
-        if (matcher.matches()) {
-            this.nextInspection = LocalDate.parse(nextInspectionString);
-            return true;
-        }
-        pattern = Pattern.compile("[12][0-9]{3}\\/[01][0-9]\\/[0-3][0-9]");
-        matcher = pattern.matcher(nextInspectionString);
-        if (matcher.matches()) {
-            this.nextInspection = LocalDate.parse(nextInspectionString.replaceAll("\\/", "-"));
+        LocalDate bufor = DateUtil.setDateFormString(nextInspectionString);
+        boolean sukces = bufor!=null;
+        if(sukces) {
+            this.nextInspection = bufor;
             return true;
         }
         return false;

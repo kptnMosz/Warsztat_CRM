@@ -35,7 +35,7 @@ public class VehicleClear extends HttpServlet {
         request.setCharacterEncoding("UTF8");
         response.setContentType("text/html, charset:utf-8");
         response.getWriter().append("jestem w serwlecie Vehicle Clear");
-        String vehId = request.getParameter("id");
+        String vehId = request.getParameter("vehicleid");
         try {
             int id = Integer.parseInt(vehId);
             Vehicle vehicleTest = VehicleDao.loadById(id);
