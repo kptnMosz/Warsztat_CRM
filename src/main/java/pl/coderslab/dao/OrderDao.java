@@ -28,7 +28,7 @@ public class OrderDao {
             " FROM orders" +
             " WHERE id = ?;";
 
-    private static String loadByCustomerEmployeeStatus = "SELECT acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders left join vehicles v on orders.vehicle_id = v.id left join customers c on v.customer_id = c.id left join employees e on orders.employee_id = e.id";
+    private static String loadByCustomerEmployeeStatus = "SELECT orders.id, orders.acceptance, orders.planned_fix, orders.start_fix, orders.problem_desc, orders.fix_desc, orders.status_id, orders.vehicle_id, orders.price, orders.parts_cost, orders.labor_cost, orders.workhours, orders.employee_id FROM orders left join vehicles v on orders.vehicle_id = v.id left join customers c on v.customer_id = c.id left join employees e on orders.employee_id = e.id";
     private static String loadOrderByVehicle = "SELECT id, acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders WHERE vehicle_id = ?;";
 
     private static String loadOrderByEmployee = "SELECT id, acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders WHERE employee_id = ?;";
@@ -220,7 +220,7 @@ public class OrderDao {
             }
             querry += " employee_id = " + employee;
         }
-        if ("".equals(custName)) {
+        if (!"".equals(custName)) {
             if (isFirst) {
                 querry += " WHERE";
                 isFirst = false;
@@ -229,7 +229,7 @@ public class OrderDao {
             }
             querry += " c.name LIKE '%" + custName + "%' OR c.surname LIKE '%" + custName + "%'";
         }
-        if ("".equals(emploName)) {
+        if (!"".equals(emploName)) {
             if (isFirst) {
                 querry += " WHERE";
                 isFirst = false;
