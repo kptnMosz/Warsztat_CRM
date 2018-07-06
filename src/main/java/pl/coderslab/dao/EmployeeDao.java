@@ -3,6 +3,7 @@ package pl.coderslab.dao;
 import pl.coderslab.DbUtil;
 import pl.coderslab.model.Employee;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +17,7 @@ public class EmployeeDao {
     private String saveEmployee = "INSERT INTO employees(name, surname, adress, phone, notes, wage) VALUES (?,?,?,?,?,?)";
     private String updateEmployee = "UPDATE employees SET name=?,surname=?,adress=?,phone=?,notes=?,wage=? WHERE id=?";
     private String deleteEmployee = "DELETE FROM employees WHERE id=?";
+    private  String loadedById = "SELECT * FROM employees WHERE id=?";
 
     //ogólnie jeszcze wybranie pracownika po ID pozostało ale zastanawiam się czy wstawić to tutaj
     // czy też zrobić servlet z takim zachowaniem
@@ -38,7 +40,7 @@ public class EmployeeDao {
                 worker.setAdress(rs.getString("adress"));
                 worker.setPhone(rs.getString("phone"));
                 worker.setNotes(rs.getString("notes"));
-                worker.setWage(rs.getDouble("wage"));
+                worker.setWage(rs.getBigDecimal("wage"));
                 employees.add(worker);
             }
         } catch (SQLException e) {
@@ -60,7 +62,7 @@ public class EmployeeDao {
                 sql.setString(3, adress);
                 sql.setString(4, phone);
                 sql.setString(5, notes);
-                sql.setDouble(6, wage);
+                sql.setBigDecimal(6, BigDecimal.valueOf(wage));
                 sql.executeUpdate();
                 ResultSet rs = sql.getGeneratedKeys();
                 if (rs.next()) {
@@ -96,4 +98,21 @@ public class EmployeeDao {
         }
     }
 
+    public  Employee loadById(int id) throws SQLException {
+        try (Connection conn = DbUtil.getConn()) {
+            PreparedStatement sql = conn.prepareStatement(loadedById);
+            sql.setInt(1, id);
+            ResultSet rs = sql.executeQuery();
+            Employee employee = new Employee();
+            while (rs.next()) {
+                employee.setId(id);
+                employee.setName(rs.getString("name"));
+                employee.setSurname(rs.getString("surname"));
+                employee.setAdress(rs.getString("address"));
+                employee.setNotes(rs.getString("notice"));
+                employee.setWage(rs.getBigDecimal("wage"));
+            }
+            return employee;
+        }
+    }
 }
