@@ -14,13 +14,13 @@
 <body>
 <c:forEach items="${employees}" var="employee">
     <tr>
-       id pracownika= <th>${employee.id}</th>,
-        imię: <td>${employee.name}</td>,
-        nazwisko: <td>${employee.surname}</td>,
-       adres zamieszkania: <td>${employee.adress}</td>,
-        nr tel: <td>${employee.phone}</td>,
-        <td>${employee.notes}</td>,
-       oraz zł/h: <td>${employee.wage}</td><br>
+      Id pracownika= <th>${employee.id}</th>,
+        Imię: <td>${employee.name}</td>,
+        Nazwisko: <td>${employee.surname}</td>,
+       Adres zamieszkania: <td>${employee.adress}</td>,
+        Nr. tel: <td>${employee.phone}</td>,
+        Notatka:<td>${employee.notes}</td>,
+       Stawka godzinowa: <td>${employee.wage}</td><br>
 
 
     </tr>
