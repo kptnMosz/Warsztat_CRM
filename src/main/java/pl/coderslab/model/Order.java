@@ -2,6 +2,7 @@ package pl.coderslab.model;
 
 
 import pl.coderslab.DateUtil;
+import pl.coderslab.dao.EmployeeDao;
 import pl.coderslab.dao.StatusDao;
 import pl.coderslab.dao.VehicleDao;
 import java.sql.Date;
@@ -29,7 +30,7 @@ public class Order {
     //    -----=====zmienne pomocnicze=====-----
     private Vehicle vehicle;
     private String statusName;
-    DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+    private Employee employee;
 
     //    -----======konstruktory======-------
     public Order() {
@@ -243,6 +244,7 @@ public class Order {
     }
 
     public void setEmployeeId(int employeeId) {
+
         this.employeeId = employeeId;
     }
 

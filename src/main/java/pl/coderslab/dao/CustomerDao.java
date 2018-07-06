@@ -81,8 +81,7 @@ public class CustomerDao {
         }
     }
 
-    public static Customer loadById(Customer customer) {
-        int id = customer.getId();
+    public static Customer loadById(int id) {
         try {
             String sql = "SELECT * FROM customers where id=?";
             PreparedStatement stmt = DbUtil.getConn().prepareStatement(sql);
@@ -96,6 +95,7 @@ public class CustomerDao {
                 loadedCustomer.setBirthdayDate(resultSet.getString("birthday"));
                 loadedCustomer.setEmail(resultSet.getString("email"));
                 loadedCustomer.setPassword(resultSet.getString("password"));
+
                 return loadedCustomer;
             }
 

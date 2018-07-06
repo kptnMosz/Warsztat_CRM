@@ -24,7 +24,7 @@
 Customer:<input type="text" value="${filterCustomerId}" name="filterCustomerId"><br />
 Status: <input type="text" value="${filterStatusId}" name="filterStatusId"><br />
     </fieldset>
-    <%--todo<input type="submit" />--%>
+    <input type="submit" />
 </form>
 
 <table>

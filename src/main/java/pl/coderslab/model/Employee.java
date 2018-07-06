@@ -27,6 +27,10 @@ public class Employee {
         this.wage = wage;
     }
 
+    public Employee(String name, String surname, String adress, String phone, String phone1, String notes, BigDecimal hourlyPayment) {
+
+    }
+
 
     public int getId() {
         return id;

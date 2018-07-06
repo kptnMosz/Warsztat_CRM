@@ -24,6 +24,7 @@ public class OrderTest extends HttpServlet {
 
         Order orderNull = OrderDao.loadById(9);
 
+
         PrintWriter pisak = response.getWriter();
         pisak.println(orderNull.getAcceptanceToRepairInSql());
         pisak.println("<br /> ------======nowe zamowienie====-------<br />");

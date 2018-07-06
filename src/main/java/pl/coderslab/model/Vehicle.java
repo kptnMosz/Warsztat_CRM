@@ -1,11 +1,9 @@
 package pl.coderslab.model;
 
 import pl.coderslab.DateUtil;
-
+import pl.coderslab.dao.CustomerDao;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Vehicle {
 
@@ -17,8 +15,10 @@ public class Vehicle {
     private String registration;
     private LocalDate nextInspection;
     private int customerId;
+
+
     //    ------=====zmienne pomocnicze======------
-//todo    private Customer customer;
+    private Customer customer;
 
     //        ---------========gettery i settery===========-----------
 
@@ -65,7 +65,11 @@ public class Vehicle {
             return null;
         }
         return Date.valueOf(nextInspection);
+    }
 
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     public void setNextInspection(LocalDate nextInspection) {
@@ -95,7 +99,9 @@ public class Vehicle {
     }
 
     public void setCustomerId(int customerId) {
+        this.customer = CustomerDao.loadById(customerId);
         this.customerId = customerId;
+
     }
 
 
@@ -124,7 +130,7 @@ public class Vehicle {
         this.produced = produced;
         this.registration = registration;
         setNextInspectionFromString(nextInspection);
-        this.customerId = customerId;
+        setCustomerId(customerId);
     }
 
     public Vehicle(int id, String model, String brand, int produced, String registration, LocalDate nextInspection, int customerId) {
@@ -134,7 +140,7 @@ public class Vehicle {
         this.produced = produced;
         this.registration = registration;
         this.nextInspection = nextInspection;
-        this.customerId = customerId;
+        setCustomerId(customerId);
     }
 
     @Override

@@ -21,6 +21,9 @@
     <li>
         <a href='/OrderView'>Orders</a>
     </li>
+    <li>
+        <a href='/Reports'>Reports</a>
+    </li>
 </ul>
 </div>
 <br />

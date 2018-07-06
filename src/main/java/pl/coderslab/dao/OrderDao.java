@@ -5,7 +5,6 @@ import java.sql.*;
 import pl.coderslab.DbUtil;
 import pl.coderslab.model.Order;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class OrderDao {
             " FROM orders" +
             " WHERE id = ?;";
 
-
+    private static String loadByCustomerEmployeeStatus = "SELECT acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders left join vehicles v on orders.vehicle_id = v.id left join customers c on v.customer_id = c.id left join employees e on orders.employee_id = e.id";
     private static String loadOrderByVehicle = "SELECT id, acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders WHERE vehicle_id = ?;";
 
     private static String loadOrderByEmployee = "SELECT id, acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders WHERE employee_id = ?;";
@@ -141,7 +140,6 @@ public class OrderDao {
     }
 
 
-
     public static List<Order> loadAllOrdersPerStatus(String status) {
         return loadList(LOAD_ALL_BY_STATUS.replaceAll("\\?", status));
     }
@@ -151,12 +149,12 @@ public class OrderDao {
 
     }
 
-    public static List<Order> loadAllbyEmployee(int employeeId){
-        return loadList(loadOrderByEmployee.replaceAll("\\?", employeeId+""));
+    public static List<Order> loadAllbyEmployee(int employeeId) {
+        return loadList(loadOrderByEmployee.replaceAll("\\?", employeeId + ""));
     }
 
-    public static List<Order> loadAllbyVehicle(int vehicleId){
-        return loadList(loadOrderByVehicle.replaceAll("\\?", vehicleId+""));
+    public static List<Order> loadAllbyVehicle(int vehicleId) {
+        return loadList(loadOrderByVehicle.replaceAll("\\?", vehicleId + ""));
     }
 
     private static List<Order> loadList(String querry) {
@@ -188,5 +186,60 @@ public class OrderDao {
         return orders;
     }
 
+    /**
+     * podajemy dane jakich szukamy, jeśli ajkiś agrument liczbowy jest do pominięcia wpisujemy -1, jeśli string to ""
+     */
+    public static ArrayList<Order> filteredSearch(int status, int customer, int employee, String custName, String emploName) {
+        ArrayList<Order> orders = new ArrayList<>();
+        boolean isFirst = true;
+        String querry = loadByCustomerEmployeeStatus;
+        if (status > -1) {
+            if (isFirst) {
+                querry += " WHERE";
+                isFirst = false;
+            } else {
+                querry += " AND";
+            }
+            querry += " status_id = " + status;
+        }
+        if (customer > -1) {
+            if (isFirst) {
+                querry += " WHERE";
+                isFirst = false;
+            } else {
+                querry += " AND";
+            }
+            querry += " customer_id = " + customer;
+        }
+        if (employee > -1) {
+            if (isFirst) {
+                querry += " WHERE";
+                isFirst = false;
+            } else {
+                querry += " AND";
+            }
+            querry += " employee_id = " + employee;
+        }
+        if ("".equals(custName)) {
+            if (isFirst) {
+                querry += " WHERE";
+                isFirst = false;
+            } else {
+                querry += " AND";
+            }
+            querry += " c.name LIKE '%" + custName + "%' OR c.surname LIKE '%" + custName + "%'";
+        }
+        if ("".equals(emploName)) {
+            if (isFirst) {
+                querry += " WHERE";
+                isFirst = false;
+            } else {
+                querry += " AND";
+            }
+            querry += " e.name LIKE '%" + emploName + "%' OR e.surname LIKE '%" + emploName + "%'";
+        }
+
+        return (ArrayList<Order>) loadList(querry);
+    }
 
 }
