@@ -9,18 +9,43 @@
 <html>
 <head>
     <title>Title</title>
+    <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
 <%@ include file="../fragments/header.jsp"  %>
-<form method='post' action=''>
+<form method="post" action="/AddEmployee">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input name="name" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Surname:</td>
+            <td><input name="surname" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Address:</td>
+            <td><input name="adress" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Phone number:</td>
+            <td><input name="phone" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Information about employee:</td>
+            <td><input name="notes" type="text" /></td>
+        </tr>
+        <tr>
+            <td>Hourly payment: </td>
+            <td><input name="wage" type="number" /></td>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" name="aprove" >Zaakceptuj Pracownika</button>
+            </td>
+        </tr>
 
-<div><label>Name: <br><input type='text' name='name' required /> </label></div>
-<div><label>Surname: <br><input type='text' name='surname' required /> </label></div>
-<div><label>Address: <br><input type='text' name='adress' required /> </label></div>
-<div><label>Phone number: <br><input type='text' name='phone' required /> </label></div>
-<div><label>Information about employee: <br><input type='text' name='notes' required /> </label></div>
-<div><label>Hourly payment: <br><input type='number' name='wage' min=0 required /> </label></div>
-<div><input type='submit' value='submit'/> </div>
+    </table>
 </form>
 
 <%@ include file="../fragments/footer.jsp" %>
