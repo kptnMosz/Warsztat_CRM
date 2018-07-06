@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
-@WebServlet("/AllEmployees")
+@WebServlet("/AllEmployeesTest")
 public class AllEmployees extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
