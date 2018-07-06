@@ -31,7 +31,6 @@ public class Order {
     private String statusName;
 
 
-
     private Employee employee;
 
     //    -----======konstruktory======-------
@@ -331,7 +330,11 @@ public class Order {
     public void addWorkhours(int workhours) {
         BigDecimal delta = new BigDecimal((workhours - this.workhours) + 0.0);
         BigDecimal newLabor = employee.getWage().multiply(delta);
-        this.laborCost.add(newLabor);
+        if (this.laborCost == null) {
+            this.laborCost = newLabor;
+        } else {
+            this.laborCost.add(newLabor);
+        }
         this.workhours = workhours;
     }
 

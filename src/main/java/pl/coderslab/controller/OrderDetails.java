@@ -61,7 +61,7 @@ public class OrderDetails extends HttpServlet {
             if (employStr != null && !employStr.equals("")) {
                 int employeeId = Integer.parseInt(employStr);
                 if(order.getEmployeeId()==0) {
-                    order.setStatusId(employeeId);
+                    order.setEmployeeId(employeeId);
                 }else{
                     pisak.println("nie zmieniamy przypisanego pracownika - sory taki system <br />");
                 }
@@ -149,7 +149,7 @@ public class OrderDetails extends HttpServlet {
             String workhours = request.getParameter("workhours");
             if (workhours != null && !workhours.equals("")) {
                 int workhoursInt = Integer.parseInt(workhours);
-                order.setWorkhours(workhoursInt);
+                order.addWorkhours(workhoursInt);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();

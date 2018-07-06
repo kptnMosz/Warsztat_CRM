@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(name = "VehicleNew", urlPatterns = "/VehicleNew")
 public class VehicleNew extends HttpServlet {
@@ -19,16 +20,20 @@ public class VehicleNew extends HttpServlet {
         String brand = request.getParameter("brand");
         String registration = request.getParameter("registration");
         String nextInspection = request.getParameter("nextInspection");
-        String strCust = request.getParameter("customerId");
+        String strCust = request.getParameter("owner");
         String strProduced = request.getParameter("produced");
         try {
             int custId = Integer.parseInt(strCust);
             int produced = Integer.parseInt(strProduced);
             Vehicle vehicle = new Vehicle(model, brand, produced, registration, nextInspection, custId);
+            VehicleDao.saveToDb(vehicle);
             response.getWriter().append("dodano pojazd:" + vehicle);
         }catch (NumberFormatException e){
             e.printStackTrace();
             response.getWriter().append("Nieprawidlowy format danych");
+        }catch (SQLException e){
+            e.printStackTrace();
+            response.getWriter().append("Błąd bazy danych");
         }
 
     }

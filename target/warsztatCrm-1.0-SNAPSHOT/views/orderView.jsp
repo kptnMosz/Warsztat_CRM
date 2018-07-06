@@ -21,8 +21,8 @@
     <fieldset>
         <legend>filtr:</legend>
 
-Customer:<input type="text" value="${filterCustomerId}" name="filterCustomerId"><br />
-Status: <input type="text" value="${filterStatusId}" name="filterStatusId"><br />
+Customer:<input type="text" value="${filterCustomerId==-1? "" : filterCustomerId}" name="filterCustomerId"><br />
+Status: <input type="text" value="${filterStatusId==-1? "" : filterStatusId}" name="filterStatusId"><br />
     </fieldset>
     <input type="submit" />
 </form>

@@ -46,7 +46,7 @@ public class OrderNew extends HttpServlet {
             String employStr = request.getParameter("employeeId");
             if (employStr != null && !employStr.equals("")) {
                 int employeeId = Integer.parseInt(employStr);
-                    order.setStatusId(employeeId);
+                    order.setEmployeeId(employeeId);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
