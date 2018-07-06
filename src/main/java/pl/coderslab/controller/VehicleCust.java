@@ -19,8 +19,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@WebServlet(name = "VehicleView", urlPatterns = "/VehicleView")
-public class VehicleView extends HttpServlet {
+@WebServlet(name = "VehicleCust", urlPatterns = "/VehicleCust")
+public class VehicleCust extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 
@@ -44,6 +44,6 @@ public class VehicleView extends HttpServlet {
 
 
         request.setAttribute("vehicles", vehiclesForCustomer);
-        request.getRequestDispatcher("/views/vehicle.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/vehicleCust.jsp").forward(request, response);
     }
 }
