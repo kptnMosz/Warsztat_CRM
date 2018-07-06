@@ -28,23 +28,23 @@
         <tr>
 
             <td>
-                <a href="../OrderDetails?id=${order.id}">
+                <a href="../OrderDetails?orderid=${order.id}">
                         ${order.statusId}
                 </a>
             </td>
             <td>
-                <a href="../OrderDetails?id=${order.id}">
+                <a href="../VehicleDetails?vehicleid=${order.id}">
                         ${order.repairedVehicleId}
                 </a>
             </td>
             <td>
-                <a href="../OrderDetails?id=${order.id}">
+                <a href="../OrderDetails?orderid=${order.id}">
                         ${order.employeeId}
                 </a>
             </td>
 
             <td>
-                <a href="../OrderDetails?id=${order.id}">
+                <a href="../OrderDetails?orderid=${order.id}">
                         ${order.problemDesc}
                 </a>
             </td>

@@ -72,11 +72,16 @@
                 pracownik:
             </td>
             <td>
-                <a href="../EmployeeDetails?employeeid=${order.id}">
+                <a href="../EmployeeDetails?employeeid=${order.employeeId}">
                     ${order.employeeId}
+                    ${order.employee.name}
+                        ${order.employee.surname}
                 </a>
             </td>
             <td>
+                <c:if test="${order.employeeId==0}">
+                    <input type="number" name="employeeId">
+                </c:if>
             </td>
         </tr>
         <tr>
@@ -109,7 +114,7 @@
                 ${order.fixDesc}
             </td>
             <td>
-                <input type="text" name ="fixDesc" value="${order.fixDesc}">
+                <input type="text" name="fixDesc" value="${order.fixDesc}">
             </td>
         </tr>
         <tr>
@@ -157,8 +162,33 @@
             </td>
         </tr>
 
+        <tr>
+            <td>
+                ilość roboczogodzin:
+            </td>
+            <td>
+                ${order.workhours}
+            </td>
+            <td>
+                <c:if test="${order.employeeId!=0}">
+                    <input type="number" step="0.01" name="workhours" value="${order.workhours}">
+                </c:if>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                koszt robocizny:
+            </td>
+            <td>
+                ${order.laborCost}
+            </td>
+            <td>
+
+            </td>
+        </tr>
+
     </table>
-    <input type="number" name="orderId" value="${order.id}" hidden />
+    <input type="number" name="orderId" value="${order.id}" hidden/>
     <button type="submit">Zmień Dane</button>
 </form>
 
