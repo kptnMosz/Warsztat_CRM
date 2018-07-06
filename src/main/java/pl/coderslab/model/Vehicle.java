@@ -17,8 +17,12 @@ public class Vehicle {
     private String registration;
     private LocalDate nextInspection;
     private int customerId;
+    //    ------=====zmienne pomocnicze======------
+//todo    private Customer customer;
 
     //        ---------========gettery i settery===========-----------
+
+
     public String getModel() {
         return model;
     }
@@ -57,7 +61,7 @@ public class Vehicle {
 
     public Date getNextInspectionInSqlFormat() {
 
-        if(nextInspection==null) {
+        if (nextInspection == null) {
             return null;
         }
         return Date.valueOf(nextInspection);
@@ -78,8 +82,8 @@ public class Vehicle {
      */
     public boolean setNextInspectionFromString(String nextInspectionString) {
         LocalDate bufor = DateUtil.setDateFormString(nextInspectionString);
-        boolean sukces = bufor!=null;
-        if(sukces) {
+        boolean sukces = bufor != null;
+        if (sukces) {
             this.nextInspection = bufor;
             return true;
         }
@@ -145,4 +149,5 @@ public class Vehicle {
                 ", customerId=" + customerId +
                 '}';
     }
+
 }

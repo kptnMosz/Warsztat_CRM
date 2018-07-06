@@ -59,7 +59,7 @@
                 naprawiany samochód:
             </td>
             <td>
-                <a href="VehicleDetails?vehicleid=$order.repairedVehicleId}">
+                <a href="VehicleDetails?vehicleid=${order.repairedVehicleId}">
                     ${order.repairedVehicleId}/
                     ${order.vehicle.registration}
                 </a>

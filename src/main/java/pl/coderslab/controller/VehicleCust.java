@@ -44,6 +44,6 @@ public class VehicleCust extends HttpServlet {
 
 
         request.setAttribute("vehicles", vehiclesForCustomer);
-        request.getRequestDispatcher("/views/vehicleCust.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/vehicleView.jsp").forward(request, response);
     }
 }

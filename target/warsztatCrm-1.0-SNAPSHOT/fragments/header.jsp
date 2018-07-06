@@ -13,13 +13,13 @@
     <a href=''>Customer</a>
 </li>
     <li>
-        <a href=''>Vehicle</a>
+        <a href='/VehicleView'>Vehicle</a>
     </li>
     <li>
-        <a href=''>Employee</a>
+        <a href='/AllEmployees'>Employee</a>
     </li>
     <li>
-        <a href=''>Orders</a>
+        <a href='/OrderView'>Orders</a>
     </li>
 </ul>
 </div>

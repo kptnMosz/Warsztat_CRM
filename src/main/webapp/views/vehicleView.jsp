@@ -22,18 +22,18 @@
         <tr>
 
             <td>
-                <a href="../VehicleDetails?id=${vehicle.id}">
+                <a href="../VehicleDetails?vehicleid=${vehicle.id}">
                         ${vehicle.model} / ${vehicle.brand} / ${vehicle.registration}
                 </a>
             </td>
 
             <td>
-                <a href="../VehicleDetails?id=${vehicle.id}&mode=edit">
+                <a href="../VehicleDetails?vehicleid=${vehicle.id}&mode=edit">
                     edytuj
                 </a>
             </td>
             <td>
-                <a href="../VehicleClear?id=${vehicle.id}">
+                <a href="../VehicleClear?vehicleid=${vehicle.id}">
                     usuń
                 </a>
             </td>

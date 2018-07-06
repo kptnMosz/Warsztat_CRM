@@ -17,11 +17,14 @@
 <%@ include file="../fragments/header.jsp" %>
 <br>
 <h4>Zlecenia</h4>
-filtr:
 <form method="post" action="/OrderView">
+    <fieldset>
+        <legend>filtr:</legend>
+
 Customer:<input type="text" value="${filterCustomerId}" name="filterCustomerId"><br />
 Status: <input type="text" value="${filterStatusId}" name="filterStatusId"><br />
-    <input type="submit" />
+    </fieldset>
+    <%--todo<input type="submit" />--%>
 </form>
 
 <table>
@@ -33,7 +36,8 @@ Status: <input type="text" value="${filterStatusId}" name="filterStatusId"><br /
         <th>description</th>
     </tr>
     <c:forEach var="order" items="${orders}">
-        <tr>
+
+       <tr>
 
             <td>
                 <a href="../OrderDetails?orderid=${order.id}">
@@ -63,7 +67,9 @@ Status: <input type="text" value="${filterStatusId}" name="filterStatusId"><br /
             </td>
 
         </tr>
+
     </c:forEach>
+
 </table>
 
 
