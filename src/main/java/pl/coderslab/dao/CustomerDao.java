@@ -83,7 +83,7 @@ public class CustomerDao {
         DbUtil.getConn().close();
     }
 
-    public static Customer loadById(int id) throws SQLException {
+    public static Customer loadById(int id)  {
         try {
             String sql = "SELECT * FROM customers where id=? AND active='active'";
             PreparedStatement stmt = DbUtil.getConn().prepareStatement(sql);
@@ -100,24 +100,24 @@ public class CustomerDao {
 
                 return loadedCustomer;
             }
+            DbUtil.getConn().close();
 
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        DbUtil.getConn().close();
 
         return null;
     }
 
-    public static ArrayList<Customer> loadAll() throws SQLException {
+    public static ArrayList<Customer> loadAll() {
         String sql = "SELECT * FROM customers WHERE active='active'";
         PreparedStatement stmt = null;
         try {
             stmt = DbUtil.getConn().prepareStatement(sql);
+            DbUtil.getConn().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        DbUtil.getConn().close();
         return getCustomersFromStatement(stmt);
     }
 

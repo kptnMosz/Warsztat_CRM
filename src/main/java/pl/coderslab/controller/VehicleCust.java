@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 @WebServlet(name = "VehicleCust", urlPatterns = "/VehicleCust")
 public class VehicleCust extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,8 +45,6 @@ public class VehicleCust extends HttpServlet {
             request.getRequestDispatcher("/views/vehicleView.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             pisak.println("nieprawidlowy format id usera");
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }
