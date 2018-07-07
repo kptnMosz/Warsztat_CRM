@@ -9,31 +9,38 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Raporty</title>
+    <title>Raport wyniku</title>
     <link href="../css/style.css" rel="stylesheet" type="text/css"/>
 
 </head>
 <body>
 <%@ include file="../fragments/header.jsp" %>
 <br>
-<h4>Dostępne raporty:</h4>
-<table>
-    <tr>
-<form action="/ReportView" method="post">
+<h4>Raport wyniku:</h4>
+<tr>
+    <form action="/ReportView" method="post">
         <td>
-            Uproszczony raport wyniku
+            start date: <input type="date" name="start" value="${start}" />
         </td>
         <td>
-            start date: <input type="date" name="start" />
-        </td>
-        <td>
-            end date: <input type="date" name="end" />
+            end date: <input type="date" name="end" value="${end}" />
         </td>
         <td>
             <button name="report" value="revenue">Wygeneruj raport</button>
         </td>
-</form>
-    </tr>
+    </form>
+</tr>
+<table>
+    <c:forEach var="line" items="${reportData}">
+        <tr>
+            <td>
+                    ${line.key}
+            </td>
+            <td>
+                    ${line.value}
+            </td>
+        </tr>
+    </c:forEach>
 
 
 </table>
