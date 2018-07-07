@@ -37,12 +37,12 @@ public class VehicleCust extends HttpServlet {
             custId = Integer.parseInt(customer);
 
 
-        Customer pan = CustomerDao.loadById(custId);
-        request.setAttribute("customer", pan);
+            Customer pan = CustomerDao.loadById(custId);
+            request.setAttribute("customer", pan);
 
             vehiclesForCustomer = VehicleDao.loadByCustomer(custId);
             request.setAttribute("vehicles", vehiclesForCustomer);
-        request.getRequestDispatcher("/views/vehicleView.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/vehicleView.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             pisak.println("nieprawidlowy format id usera");
         }
