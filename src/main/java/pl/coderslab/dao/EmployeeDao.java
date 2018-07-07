@@ -37,12 +37,15 @@ public class EmployeeDao {
                 worker.setNotes(rs.getString("notes"));
                 worker.setWage(rs.getBigDecimal("wage"));
                 employees.add(worker);
+                conn.close();
             }
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Nieprawidłowe dane,   ");
+
         }
         System.out.println("pracownik=  " + employees);//test print
+
         return employees;
     }
 
@@ -134,8 +137,12 @@ public class EmployeeDao {
                 sql.setInt(1, employee.getId());
                 sql.executeUpdate();
                 employee.setId(0);
+              //  conn.close();
+
             }
+
         }
+
     }
 //        try (Connection conn = DbUtil.getConn()) {
 //            PreparedStatement sql = conn.prepareStatement(deleteEmployee);
@@ -162,6 +169,7 @@ public class EmployeeDao {
                 String notes = rs.getString("notes");
                 BigDecimal wage = rs.getBigDecimal("wage");
                 employee = new Employee(id, name, surname, adress, phone, notes, wage);
+                conn.close();
             }
         }
         return employee;
