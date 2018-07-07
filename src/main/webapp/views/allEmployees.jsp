@@ -10,8 +10,16 @@
 <html>
 <head>
     <title>Title</title>
+    <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
+<h4>Lista pracowników </h4>
+<%@ include file="../fragments/header.jsp" %>
+<%--<a href="/AddEmployee${empty param.employeeid? "" : "?employeeid="} ${empty param.}"--%>
+<p>
+    <a href="/VehicleNew${empty param.customerid? "" : "?customerid="} ${empty param.customerid? "" : param.customerid}">Dodaj Pojazd</a>
+</p>
+
 <c:forEach items="${employees}" var="employee">
     <tr>
       Id pracownika= <th>${employee.id}</th>,
@@ -48,6 +56,6 @@
         </tr>
     </c:forEach>
 </table>
-
+<%@include file="../fragments/footer.jsp" %>
 </body>
 </html>
