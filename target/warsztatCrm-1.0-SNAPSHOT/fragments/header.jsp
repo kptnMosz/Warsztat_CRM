@@ -8,22 +8,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div>
-<ul class="menu">
-<li>
-    <a href=''>Customer</a>
-</li>
-    <li>
-        <a href='/VehicleView'>Vehicle</a>
-    </li>
-    <li>
-        <a href='/AllEmployees'>Employee</a>
-    </li>
-    <li>
-        <a href='/OrderView'>Orders</a>
-    </li>
-    <li>
-        <a href='/ReportView'>Reports</a>
-    </li>
-</ul>
+    <ul class="menu">
+        <li>
+            <a href='/AllCustomers'>Customer</a>
+        </li>
+        <li>
+            <a href='/VehicleView'>Vehicle</a>
+        </li>
+        <li>
+            <a href='/AllEmployees'>Employee</a>
+        </li>
+        <li>
+            <a href='/OrderView'>Orders</a>
+        </li>
+        <li>
+            <a href='/ReportView'>Reports</a>
+        </li>
+    </ul>
 </div>
-<br />
+<br/>

@@ -25,10 +25,10 @@ public class ModifyEmployee extends HttpServlet {
         String wage=request.getParameter("wage");
         BigDecimal empWage= BigDecimal.valueOf(Integer.parseInt(wage));
 
-        try {
-            int empId = Integer.parseInt(id);
-            Employee employeeDel = EmployeeDao.update(empId);
-        }
+//        try {
+//            int empId = Integer.parseInt(id);
+//            Employee employeeDel = EmployeeDao.update(empId);
+//        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
