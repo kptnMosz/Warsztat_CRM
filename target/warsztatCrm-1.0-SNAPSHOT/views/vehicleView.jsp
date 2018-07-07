@@ -13,9 +13,10 @@
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
+<h4>Lista pojazdow Klienta: ${customer.name} ${customer.surname}</h4>
 <%@ include file="../fragments/header.jsp" %>
 <p>
-    <a href="/VehicleNew${empty param.customer? "" : "?custid="} ${empty param.customer? "" : param.customer}">Dodaj Pojazd</a>
+    <a href="/VehicleNew${empty param.customerid? "" : "?customerid="} ${empty param.customerid? "" : param.customerid}">Dodaj Pojazd</a>
 </p>
 <table>
     <c:forEach var="vehicle" items="${vehicles}">

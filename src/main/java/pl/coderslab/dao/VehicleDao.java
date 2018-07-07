@@ -137,7 +137,7 @@ public class VehicleDao {
         }
         if(vehicle.getId()!=0){
             try(Connection conn = DbUtil.getConn()){
-                PreparedStatement sql = conn.prepareStatement("UPDATE vehicles SET customer_id = null WHERE id = ?;");
+                PreparedStatement sql = conn.prepareStatement("UPDATE vehicles SET customer_id = 0 WHERE id = ?;");
                 sql.setInt(1,vehicle.getId());
                 sql.executeUpdate();
                 vehicle.setId(0);
