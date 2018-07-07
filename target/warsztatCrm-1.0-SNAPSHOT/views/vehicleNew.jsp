@@ -29,7 +29,7 @@
         </tr>
         <tr>
             <td>produced in:</td>
-            <td><input name="produced" type="text" /></td>
+            <td><input name="produced" type="number" /></td>
         </tr>
         <tr>
             <td>next inspection:</td>
@@ -37,7 +37,7 @@
         </tr>
         <tr>
             <td>owner:</td>
-            <td><input name="owner" type="number" value=${param.custid} /></td>
+            <td><input name="owner" type="number" value=${param.customerid} /></td>
         </tr>
             <tr>
                 <td>

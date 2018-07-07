@@ -1,12 +1,15 @@
 package pl.coderslab.dao;
 
+import java.math.BigDecimal;
 import java.sql.*;
 
 import pl.coderslab.DbUtil;
 import pl.coderslab.model.Order;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OrderDao {
     private static String LOAD_ALL_ORDERS = "SELECT id, acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders;";
@@ -27,6 +30,8 @@ public class OrderDao {
             "  employee_id" +
             " FROM orders" +
             " WHERE id = ?;";
+
+    private static String revenueReport = "SELECT SUM(price) as revenue, SUM(labor_cost) as labor, Sum(parts_cost) as materials FROM orders WHERE start_fix BETWEEN  ? AND ?;";
 
     private static String loadByCustomerEmployeeStatus = "SELECT orders.id, orders.acceptance, orders.planned_fix, orders.start_fix, orders.problem_desc, orders.fix_desc, orders.status_id, orders.vehicle_id, orders.price, orders.parts_cost, orders.labor_cost, orders.workhours, orders.employee_id FROM orders left join vehicles v on orders.vehicle_id = v.id left join customers c on v.customer_id = c.id left join employees e on orders.employee_id = e.id";
     private static String loadOrderByVehicle = "SELECT id, acceptance, planned_fix, start_fix, problem_desc, fix_desc, status_id, vehicle_id, price, parts_cost, labor_cost, workhours, employee_id FROM orders WHERE vehicle_id = ?;";
@@ -240,6 +245,28 @@ public class OrderDao {
         }
 
         return (ArrayList<Order>) loadList(querry);
+    }
+
+    public static HashMap<String, BigDecimal> revenueReport(Date start, Date end) {
+        HashMap<String, BigDecimal> raport = new HashMap<>();
+        try (Connection conn = DbUtil.getConn()) {
+            PreparedStatement sql = conn.prepareStatement(revenueReport);
+            sql.setDate(1,start);
+            sql.setDate(2,end);
+            ResultSet rs = sql.executeQuery();
+            if (rs.next()){
+                BigDecimal revenue =rs.getBigDecimal("revenue");
+                raport.put("revenue",revenue );
+                BigDecimal labor =rs.getBigDecimal("labor");
+                raport.put("labor",labor );
+                BigDecimal materials =rs.getBigDecimal("materials");
+                raport.put("materials",materials );
+            }
+        } catch (SQLException e) {
+            System.out.println("błąd przy ładowaniu raportu z bazy danych");
+            e.printStackTrace();
+        }
+        return raport;
     }
 
 }
