@@ -26,5 +26,28 @@
     </tr>
 </c:forEach>
 
+<table>
+    <c:forEach var="employee" items="${employees}">
+        <tr>
+            <%--<td>--%>
+                <%--<a href="../EmployeeDetails?employeeid=${employee.id}">--%>
+                        <%--${employee.name} / ${employee.surname} / ${employee.adress}--%>
+                <%--</a>--%>
+            <%--</td>--%>
+
+            <td>
+                <a href="../ModifyEmployee=${employee.id}?employeeid&mode=edit">
+                    Edit
+                </a>
+            </td>
+            <td>
+                <a href="../DeleteEmployee=${employee.id}?employeeid">
+                    Delete
+                </a>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
+
 </body>
 </html>
