@@ -19,7 +19,7 @@
 <h4>Dostępne raporty:</h4>
 <table>
     <tr>
-
+<form action="/ReportView" method="post">
         <td>
             Uproszczony raport wyniku
         </td>
@@ -30,8 +30,9 @@
             end date: <input type="date" name="end" />
         </td>
         <td>
-            <input type="submit" name="Uruchom raport">
+            <button name="report" value="revenue">Wygeneruj raport</button>
         </td>
+</form>
     </tr>
 
 
