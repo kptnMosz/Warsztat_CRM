@@ -1,5 +1,6 @@
 package pl.coderslab;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,5 +29,20 @@ public class DateUtil {
             return wynik;
         }
         return null;
+    }
+
+    public static Date setDateSqlFromLocalDate(LocalDate date){
+        if(date==null){
+            return null;
+        }
+        return Date.valueOf(date);
+    }
+
+    public static Date setDateSqlFromString(String date){
+        LocalDate localDate = setDateFormString(date);
+        if(localDate==null){
+            return null;
+        }
+        return Date.valueOf(localDate);
     }
 }
