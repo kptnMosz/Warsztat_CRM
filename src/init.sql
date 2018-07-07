@@ -14,6 +14,8 @@ CREATE TABLE customers (
   surname  VARCHAR(20),
   birthday DATE,
   email    varchar(50) not null,
+  password varchar(50)                  not null,
+  active   varchar(12) default 'active' not null,
   constraint customers_email_uindex
   unique (email)
 );
