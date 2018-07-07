@@ -124,22 +124,35 @@ public class EmployeeDao {
 //        }
 //    }
 
-    public static void deleteWorker(int id) {
-        try (Connection conn = DbUtil.getConn()) {
-            PreparedStatement sql = conn.prepareStatement(deleteEmployee);
-            sql.setInt(1, id);
-            sql.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Pracownik pozostał na liście przez błąd podczas usuwania");
+    public static void deleteWorker(Employee employee) throws SQLException {
+        if (employee == null) {
+            throw new NullPointerException("Not possible to delete");
+        }
+        if (employee.getId() != 0) {
+            try (Connection conn = DbUtil.getConn()) {
+                PreparedStatement sql = conn.prepareStatement(deleteEmployee);
+                sql.setInt(1, employee.getId());
+                sql.executeUpdate();
+                employee.setId(0);
+            }
         }
     }
+//        try (Connection conn = DbUtil.getConn()) {
+//            PreparedStatement sql = conn.prepareStatement(deleteEmployee);
+//            sql.setInt(1, id);
+//            sql.executeUpdate();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            System.out.println("Pracownik pozostał na liście przez błąd podczas usuwania");
+//        }
+    //}
+
 
     public static Employee loadById(int id) throws SQLException {
         Employee employee = null;
         try (Connection conn = DbUtil.getConn()) {
             PreparedStatement sql = conn.prepareStatement(loadedById);
-            sql.setInt(1,id);
+           // sql.setInt(1,id);
             ResultSet rs = sql.executeQuery();
             if (rs.next()) {
                 String name = rs.getString("name");
