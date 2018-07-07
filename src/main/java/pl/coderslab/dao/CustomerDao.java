@@ -68,7 +68,7 @@ public class CustomerDao {
         DbUtil.getConn().close();
     }
 
-    public void delete(Customer customer) {
+    public void delete(Customer customer) throws SQLException {
         int id = customer.getId();
         String sql = "UPDATE customers SET active='inactive' WHERE id= ?";
         try {
@@ -76,14 +76,14 @@ public class CustomerDao {
                 PreparedStatement stmt = DbUtil.getConn().prepareStatement(sql);
                 stmt.setInt(1, id);
                 stmt.executeUpdate();
-                DbUtil.getConn().close();
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+        DbUtil.getConn().close();
     }
 
-    public static Customer loadById(int id) {
+    public static Customer loadById(int id) throws SQLException {
         try {
             String sql = "SELECT * FROM customers where id=? AND active='active'";
             PreparedStatement stmt = DbUtil.getConn().prepareStatement(sql);
@@ -104,19 +104,20 @@ public class CustomerDao {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+        DbUtil.getConn().close();
 
         return null;
     }
 
-    public static ArrayList<Customer> loadAll() {
+    public static ArrayList<Customer> loadAll() throws SQLException {
         String sql = "SELECT * FROM customers WHERE active='active'";
         PreparedStatement stmt = null;
         try {
             stmt = DbUtil.getConn().prepareStatement(sql);
-            DbUtil.getConn().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        DbUtil.getConn().close();
         return getCustomersFromStatement(stmt);
     }
 
@@ -135,6 +136,7 @@ public class CustomerDao {
                 loadedCustomer.setPassword(resultSet.getString("password"));
                 customers.add(loadedCustomer);
             }
+            DbUtil.getConn().close();
             return customers;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
