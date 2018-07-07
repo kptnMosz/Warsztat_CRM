@@ -45,6 +45,8 @@ public class VehicleCust extends HttpServlet {
             request.getRequestDispatcher("/views/vehicleView.jsp").forward(request, response);
         } catch (NumberFormatException e) {
             pisak.println("nieprawidlowy format id usera");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
