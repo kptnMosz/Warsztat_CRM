@@ -5,5 +5,5 @@
   Time: 22:08
   To change this template use File | Settings | File Templates.
 --%>
-<% response.sendRedirect("/Start"); %>
+<% response.sendRedirect("/Index"); %>
 
