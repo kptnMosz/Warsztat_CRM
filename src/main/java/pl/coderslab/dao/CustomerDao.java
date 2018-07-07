@@ -65,16 +65,18 @@ public class CustomerDao {
         stmt.setString(5, customer.getPassword());
         stmt.setInt(6, id);
         stmt.executeUpdate();
+        DbUtil.getConn().close();
     }
 
     public void delete(Customer customer) {
         int id = customer.getId();
-        String sql = "DELETE FROM customers WHERE id= ?";
+        String sql = "UPDATE customers SET active='inactive' WHERE id= ?";
         try {
             if (id != 0) {
                 PreparedStatement stmt = DbUtil.getConn().prepareStatement(sql);
                 stmt.setInt(1, id);
                 stmt.executeUpdate();
+                DbUtil.getConn().close();
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -83,7 +85,7 @@ public class CustomerDao {
 
     public static Customer loadById(int id) {
         try {
-            String sql = "SELECT * FROM customers where id=?";
+            String sql = "SELECT * FROM customers where id=? AND active='active'";
             PreparedStatement stmt = DbUtil.getConn().prepareStatement(sql);
             stmt.setInt(1, id);
             ResultSet resultSet = stmt.executeQuery();
@@ -107,10 +109,11 @@ public class CustomerDao {
     }
 
     public static ArrayList<Customer> loadAll() {
-        String sql = "SELECT * FROM customers";
+        String sql = "SELECT * FROM customers WHERE active='active'";
         PreparedStatement stmt = null;
         try {
             stmt = DbUtil.getConn().prepareStatement(sql);
+            DbUtil.getConn().close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
