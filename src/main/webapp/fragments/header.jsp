@@ -22,7 +22,7 @@
         <a href='/OrderView'>Orders</a>
     </li>
     <li>
-        <a href='/Reports'>Reports</a>
+        <a href='/ReportView'>Reports</a>
     </li>
 </ul>
 </div>
