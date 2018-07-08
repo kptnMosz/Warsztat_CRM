@@ -333,7 +333,7 @@ public class Order {
         if (this.laborCost == null) {
             this.laborCost = newLabor;
         } else {
-            this.laborCost.add(newLabor);
+            this.laborCost = laborCost.add(newLabor);
         }
         this.workhours = workhours;
     }
