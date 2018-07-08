@@ -63,13 +63,13 @@ public class EmployeeDao {
     public static void addToDb(Employee employee) throws SQLException {
 
         Connection conn = DbUtil.getConn();
-        PreparedStatement sql = conn.prepareStatement(saveEmployee, new String[] {"id"} );
+        PreparedStatement sql = conn.prepareStatement(saveEmployee, new String[]{"id"});
         sql.setString(1, employee.getName());
         sql.setString(2, employee.getSurname());
         sql.setString(3, employee.getAdress());
         sql.setString(4, employee.getPhone());
         sql.setString(5, employee.getNotes());
-        sql.setBigDecimal(6,employee.getWage());
+        sql.setBigDecimal(6, employee.getWage());
         sql.executeUpdate();
         ResultSet rs = sql.getGeneratedKeys();
         if (rs.next()) {
@@ -86,7 +86,7 @@ public class EmployeeDao {
         sql.setString(3, employee.getAdress());
         sql.setString(4, employee.getPhone());
         sql.setString(5, employee.getNotes());
-        sql.setBigDecimal(6,employee.getWage());
+        sql.setBigDecimal(6, employee.getWage());
         sql.executeUpdate();
         conn.close();
     }
@@ -137,7 +137,7 @@ public class EmployeeDao {
                 sql.setInt(1, employee.getId());
                 sql.executeUpdate();
                 employee.setId(0);
-              //  conn.close();
+                //  conn.close();
 
             }
 
@@ -159,7 +159,7 @@ public class EmployeeDao {
         Employee employee = null;
         try (Connection conn = DbUtil.getConn()) {
             PreparedStatement sql = conn.prepareStatement(loadedById);
-           // sql.setInt(1,id);
+            sql.setInt(1, id);
             ResultSet rs = sql.executeQuery();
             if (rs.next()) {
                 String name = rs.getString("name");
